@@ -17,7 +17,7 @@ public:
     void fill_block(uint32_t x, uint32_t y, void* raw_pixels, int pitch,
                     uint32_t color);
 
-	~chip8_window();
+    ~chip8_window();
 
 private:
     static const uint32_t scale = 10;

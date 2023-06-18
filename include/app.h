@@ -17,7 +17,7 @@ public:
     bool load_rom(const std::string& rom_path);
     void run();
 
-	~chip8_app();
+    ~chip8_app();
 
 private:
     chip8_emulator emulator;

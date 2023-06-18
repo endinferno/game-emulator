@@ -108,5 +108,4 @@ private:
     struct chip8_opcode_t code;
 };
 
-
 #endif /* __CHIP8_OPCODE_H */
