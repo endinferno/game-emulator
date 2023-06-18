@@ -70,21 +70,20 @@ bool chip8_window::update_render_tick()
 
 void chip8_window::update_screen(const chip8_emulator& emulator)
 {
-    void* raw_pixels;
-    int pitch;
+    int pitch = 0;
+    uint32_t* start_pixels = nullptr;
     const std::vector<std::vector<uint8_t>>& screen = emulator.get_screen();
 
-    SDL_LockTexture(texture, nullptr, &raw_pixels, &pitch);
+    SDL_LockTexture(texture, nullptr, (void**)&start_pixels, &pitch);
 
     for (uint32_t x = 0; x < sdl_width; x++)
     {
         for (uint32_t y = 0; y < sdl_height; y++)
         {
-            uint8_t pixel = screen[x][y];
-            if (pixel == 0x0)
-                fill_block(x * scale, y * scale, raw_pixels, pitch, 0x000000FF);
-            else
-                fill_block(x * scale, y * scale, raw_pixels, pitch, 0xFFFFFFFF);
+            uint32_t color = (screen[x][y] == 0x0) ? 0x000000FF : 0xFFFFFFFF;
+            uint32_t* pixels = start_pixels + x * scale + y * scale * pitch / 4;
+            if (pixels[0] == color) continue;
+            fill_block(pixels, pitch, color);
         }
     }
 
@@ -92,14 +91,10 @@ void chip8_window::update_screen(const chip8_emulator& emulator)
     SDL_RenderCopy(renderer, texture, nullptr, nullptr);
     SDL_RenderPresent(renderer);
 }
-void chip8_window::fill_block(uint32_t x, uint32_t y, void* raw_pixels,
-                              int pitch, uint32_t color)
+void chip8_window::fill_block(uint32_t* pixels, int pitch, uint32_t color)
 {
-    uint32_t* pixels = (uint32_t*)raw_pixels + x + y * pitch / 4;
-
-    for (uint32_t fill_y = 0; fill_y < scale; fill_y++)
-        for (uint32_t fill_x = 0; fill_x < scale; fill_x++)
-            pixels[fill_x + fill_y * pitch / 4] = color;
+    for (uint32_t y = 0; y < scale; y++)
+        for (uint32_t x = 0; x < scale; x++) pixels[x + y * pitch / 4] = color;
 }
 
 chip8_window::~chip8_window() {}
