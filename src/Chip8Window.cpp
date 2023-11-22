@@ -70,11 +70,11 @@ bool chip8_window::update_render_tick()
     return false;
 }
 
-void chip8_window::update_screen(const chip8_emulator& emulator)
+void chip8_window::update_screen(const Chip8Emulator& emulator)
 {
     int pitch = 0;
     uint32_t* start_pixels = nullptr;
-    const std::vector<std::vector<uint8_t>>& screen = emulator.get_screen();
+    const std::vector<std::vector<uint8_t>>& screen = emulator.GetScreen();
 
     SDL_LockTexture(texture, nullptr, (void**)&start_pixels, &pitch);
 

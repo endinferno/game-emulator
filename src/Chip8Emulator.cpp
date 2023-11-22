@@ -11,7 +11,7 @@ uint8_t font_set[] = {
     0xF0, 0x80, 0xF0, 0xF0, 0x80, 0xF0, 0x80, 0x80,
 };
 
-chip8_emulator::chip8_emulator(uint8_t width, uint8_t height)
+Chip8Emulator::Chip8Emulator(uint8_t width, uint8_t height)
     : V_reg(CHIP8_REG_COUNT, 0)
     , engine(seed())
     , distrib(0, 255)
@@ -32,18 +32,18 @@ chip8_emulator::chip8_emulator(uint8_t width, uint8_t height)
     };
 }
 
-void chip8_emulator::set_rom(uint8_t* content, uint16_t len)
+void Chip8Emulator::SetRom(uint8_t* content, uint16_t len)
 {
     memcpy(content, font_set, sizeof(font_set) / sizeof(uint8_t));
     rom_content = std::vector<uint8_t>(content, content + len);
 }
 
-void chip8_emulator::decrease_delay_timer()
+void Chip8Emulator::DecreaseDelayTimer()
 {
     if (delay_timer > 0) delay_timer--;
 }
 
-chip8_opcode chip8_emulator::fetch()
+chip8_opcode Chip8Emulator::Fetch()
 {
     uint16_t opcode = static_cast<uint16_t>(rom_content[pc]);
     opcode <<= 8;
@@ -52,33 +52,33 @@ chip8_opcode chip8_emulator::fetch()
     return chip8_opcode(opcode);
 }
 
-void chip8_emulator::decode(const chip8_opcode& opcode)
+void Chip8Emulator::Decode(const chip8_opcode& opcode)
 {
     chip8_opcode_type opcode_type = opcode.get_opcode_type();
     switch (opcode_type) {
-    case CHIP8_OPCODE_TYPE_0: decode_opcode_0(opcode); break;
-    case CHIP8_OPCODE_TYPE_1: decode_opcode_1(opcode); break;
-    case CHIP8_OPCODE_TYPE_2: decode_opcode_2(opcode); break;
-    case CHIP8_OPCODE_TYPE_3: decode_opcode_3(opcode); break;
-    case CHIP8_OPCODE_TYPE_4: decode_opcode_4(opcode); break;
-    case CHIP8_OPCODE_TYPE_5: decode_opcode_5(opcode); break;
-    case CHIP8_OPCODE_TYPE_6: decode_opcode_6(opcode); break;
-    case CHIP8_OPCODE_TYPE_7: decode_opcode_7(opcode); break;
-    case CHIP8_OPCODE_TYPE_8: decode_opcode_8(opcode); break;
-    case CHIP8_OPCODE_TYPE_9: decode_opcode_9(opcode); break;
-    case CHIP8_OPCODE_TYPE_A: decode_opcode_A(opcode); break;
-    case CHIP8_OPCODE_TYPE_B: decode_opcode_B(opcode); break;
-    case CHIP8_OPCODE_TYPE_C: decode_opcode_C(opcode); break;
-    case CHIP8_OPCODE_TYPE_D: decode_opcode_D(opcode); break;
-    case CHIP8_OPCODE_TYPE_E: decode_opcode_E(opcode); break;
-    case CHIP8_OPCODE_TYPE_F: decode_opcode_F(opcode); break;
+    case CHIP8_OPCODE_TYPE_0: DecodeOpcode0(opcode); break;
+    case CHIP8_OPCODE_TYPE_1: DecodeOpcode1(opcode); break;
+    case CHIP8_OPCODE_TYPE_2: DecodeOpcode2(opcode); break;
+    case CHIP8_OPCODE_TYPE_3: DecodeOpcode3(opcode); break;
+    case CHIP8_OPCODE_TYPE_4: DecodeOpcode4(opcode); break;
+    case CHIP8_OPCODE_TYPE_5: DecodeOpcode5(opcode); break;
+    case CHIP8_OPCODE_TYPE_6: DecodeOpcode6(opcode); break;
+    case CHIP8_OPCODE_TYPE_7: DecodeOpcode7(opcode); break;
+    case CHIP8_OPCODE_TYPE_8: DecodeOpcode8(opcode); break;
+    case CHIP8_OPCODE_TYPE_9: DecodeOpcode9(opcode); break;
+    case CHIP8_OPCODE_TYPE_A: DecodeOpcodeA(opcode); break;
+    case CHIP8_OPCODE_TYPE_B: DecodeOpcodeB(opcode); break;
+    case CHIP8_OPCODE_TYPE_C: DecodeOpcodeC(opcode); break;
+    case CHIP8_OPCODE_TYPE_D: DecodeOpcodeD(opcode); break;
+    case CHIP8_OPCODE_TYPE_E: DecodeOpcodeE(opcode); break;
+    case CHIP8_OPCODE_TYPE_F: DecodeOpcodeF(opcode); break;
     default:
         ERROR("Unknown opcode type: {:#04X}", static_cast<int>(opcode_type));
         break;
     }
 }
 
-void chip8_emulator::handle_key_event(uint32_t keytype, int keycode)
+void Chip8Emulator::HandleKeyEvent(uint32_t keytype, int keycode)
 {
     if (keytype != SDL_KEYDOWN && keytype != SDL_KEYUP) return;
     if (!chip8_key_map.count(keycode)) return;
@@ -89,81 +89,81 @@ void chip8_emulator::handle_key_event(uint32_t keytype, int keycode)
     *wait_reg = chip8_key;
 }
 
-const std::vector<std::vector<uint8_t>>& chip8_emulator::get_screen() const
+const std::vector<std::vector<uint8_t>>& Chip8Emulator::GetScreen() const
 {
     return screen;
 }
 
-bool chip8_emulator::is_wait() const
+bool Chip8Emulator::IsWait() const
 {
     return in_wait;
 }
 
-void chip8_emulator::push_stack(uint16_t val)
+void Chip8Emulator::PushStack(uint16_t val)
 {
     rom_stack.push(val);
 }
 
-uint16_t chip8_emulator::pop_stack()
+uint16_t Chip8Emulator::PopStack()
 {
     uint16_t ret = rom_stack.top();
     rom_stack.pop();
     return ret;
 }
 
-uint8_t chip8_emulator::get_random()
+uint8_t Chip8Emulator::GetRandom()
 {
     return distrib(engine);
 }
 
-void chip8_emulator::decode_opcode_0(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcode0(const chip8_opcode& opcode)
 {
     if (opcode.is_cls_opcode()) {
         for (int i = 0; i < screen_width; i++)
             for (int j = 0; j < screen_height; j++) screen[i][j] = 0;
     }
     else if (opcode.is_ret_opcode()) {
-        pc = pop_stack();
+        pc = PopStack();
     }
 }
 
-void chip8_emulator::decode_opcode_1(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcode1(const chip8_opcode& opcode)
 {
     pc = opcode.get_addr();
 }
 
-void chip8_emulator::decode_opcode_2(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcode2(const chip8_opcode& opcode)
 {
-    push_stack(pc);
+    PushStack(pc);
     pc = opcode.get_addr();
 }
 
-void chip8_emulator::decode_opcode_3(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcode3(const chip8_opcode& opcode)
 {
     if (V_reg[opcode.get_reg_x()] == opcode.get_kk()) pc += 2;
 }
 
-void chip8_emulator::decode_opcode_4(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcode4(const chip8_opcode& opcode)
 {
     if (V_reg[opcode.get_reg_x()] != opcode.get_kk()) pc += 2;
 }
 
-void chip8_emulator::decode_opcode_5(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcode5(const chip8_opcode& opcode)
 {
     if (V_reg[opcode.get_reg_x()] == V_reg[opcode.get_reg_y()]) pc += 2;
 }
 
-void chip8_emulator::decode_opcode_6(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcode6(const chip8_opcode& opcode)
 {
     V_reg[opcode.get_reg_x()] = opcode.get_kk();
 }
 
-void chip8_emulator::decode_opcode_7(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcode7(const chip8_opcode& opcode)
 {
     V_reg[opcode.get_reg_x()] += opcode.get_kk();
 }
 
-void chip8_emulator::decode_opcode_8(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcode8(const chip8_opcode& opcode)
 {
     uint8_t& reg_x = V_reg[opcode.get_reg_x()];
     uint8_t& reg_y = V_reg[opcode.get_reg_y()];
@@ -208,27 +208,27 @@ void chip8_emulator::decode_opcode_8(const chip8_opcode& opcode)
     }
 }
 
-void chip8_emulator::decode_opcode_9(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcode9(const chip8_opcode& opcode)
 {
     if (V_reg[opcode.get_reg_x()] != V_reg[opcode.get_reg_y()]) pc += 2;
 }
 
-void chip8_emulator::decode_opcode_A(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcodeA(const chip8_opcode& opcode)
 {
     I_reg = opcode.get_addr();
 }
 
-void chip8_emulator::decode_opcode_B(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcodeB(const chip8_opcode& opcode)
 {
     pc = opcode.get_addr() + V_reg[0];
 }
 
-void chip8_emulator::decode_opcode_C(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcodeC(const chip8_opcode& opcode)
 {
-    V_reg[opcode.get_reg_x()] = get_random() & opcode.get_kk();
+    V_reg[opcode.get_reg_x()] = GetRandom() & opcode.get_kk();
 }
 
-void chip8_emulator::decode_opcode_D(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcodeD(const chip8_opcode& opcode)
 {
     uint8_t loc_x_start = V_reg[opcode.get_reg_x()] % screen_width;
     uint8_t loc_y_start = V_reg[opcode.get_reg_y()] % screen_height;
@@ -248,7 +248,7 @@ void chip8_emulator::decode_opcode_D(const chip8_opcode& opcode)
     }
 }
 
-void chip8_emulator::decode_opcode_E(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcodeE(const chip8_opcode& opcode)
 {
     uint8_t key = V_reg[opcode.get_reg_x()];
     switch (opcode.get_ops_type_E()) {
@@ -261,7 +261,7 @@ void chip8_emulator::decode_opcode_E(const chip8_opcode& opcode)
     }
 }
 
-void chip8_emulator::decode_opcode_F(const chip8_opcode& opcode)
+void Chip8Emulator::DecodeOpcodeF(const chip8_opcode& opcode)
 {
     switch (opcode.get_ops_type_F()) {
     case CHIP8_OPCODE_LD_DT: V_reg[opcode.get_reg_x()] = delay_timer; break;
@@ -297,5 +297,3 @@ void chip8_emulator::decode_opcode_F(const chip8_opcode& opcode)
     }
     }
 }
-
-chip8_emulator::~chip8_emulator() {}

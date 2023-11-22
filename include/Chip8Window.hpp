@@ -12,7 +12,7 @@ public:
 
     bool update_timer_tick();
     bool update_render_tick();
-    void update_screen(const chip8_emulator& emulator);
+    void update_screen(const Chip8Emulator& emulator);
     void fill_block(uint32_t* pixels, int pitch, uint32_t color);
 
     ~chip8_window();

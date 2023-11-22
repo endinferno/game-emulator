@@ -25,7 +25,7 @@ bool Chip8App::LoadRom(const std::string& rom_path)
     rom.read((char*)rom_content + 0x200, rom_content_len);
     rom.close();
 
-    emulator.set_rom(rom_content, rom_content_len + 0x200);
+    emulator.SetRom(rom_content, rom_content_len + 0x200);
 
     return true;
 }
@@ -37,12 +37,12 @@ void Chip8App::Run()
     while (!quit) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT) quit = true;
-            emulator.handle_key_event(e.type, e.key.keysym.sym);
+            emulator.HandleKeyEvent(e.type, e.key.keysym.sym);
         }
-        if (window.update_timer_tick()) emulator.decrease_delay_timer();
-        if (!emulator.is_wait()) {
-            chip8_opcode opcode = emulator.fetch();
-            emulator.decode(opcode);
+        if (window.update_timer_tick()) emulator.DecreaseDelayTimer();
+        if (!emulator.IsWait()) {
+            chip8_opcode opcode = emulator.Fetch();
+            emulator.Decode(opcode);
         }
         SDL_Delay(1);
         if (window.update_render_tick()) window.update_screen(emulator);

@@ -9,43 +9,43 @@
 
 #include "Chip8Opcode.hpp"
 
-class chip8_emulator
+class Chip8Emulator
 {
 public:
-    chip8_emulator(uint8_t width, uint8_t height);
+    Chip8Emulator(uint8_t width, uint8_t height);
 
-    void set_rom(uint8_t* content, uint16_t len);
-    void decrease_delay_timer();
-    chip8_opcode fetch();
-    void decode(const chip8_opcode& opcode);
-    void handle_key_event(uint32_t keytype, int keycode);
+    void SetRom(uint8_t* content, uint16_t len);
+    void DecreaseDelayTimer();
+    chip8_opcode Fetch();
+    void Decode(const chip8_opcode& opcode);
+    void HandleKeyEvent(uint32_t keytype, int keycode);
 
-    const std::vector<std::vector<uint8_t>>& get_screen() const;
+    const std::vector<std::vector<uint8_t>>& GetScreen() const;
 
-    bool is_wait() const;
+    bool IsWait() const;
 
-    ~chip8_emulator();
+    ~Chip8Emulator() = default;
 
 private:
-    void push_stack(uint16_t val);
-    uint16_t pop_stack();
-    uint8_t get_random();
-    void decode_opcode_0(const chip8_opcode& opcode);
-    void decode_opcode_1(const chip8_opcode& opcode);
-    void decode_opcode_2(const chip8_opcode& opcode);
-    void decode_opcode_3(const chip8_opcode& opcode);
-    void decode_opcode_4(const chip8_opcode& opcode);
-    void decode_opcode_5(const chip8_opcode& opcode);
-    void decode_opcode_6(const chip8_opcode& opcode);
-    void decode_opcode_7(const chip8_opcode& opcode);
-    void decode_opcode_8(const chip8_opcode& opcode);
-    void decode_opcode_9(const chip8_opcode& opcode);
-    void decode_opcode_A(const chip8_opcode& opcode);
-    void decode_opcode_B(const chip8_opcode& opcode);
-    void decode_opcode_C(const chip8_opcode& opcode);
-    void decode_opcode_D(const chip8_opcode& opcode);
-    void decode_opcode_E(const chip8_opcode& opcode);
-    void decode_opcode_F(const chip8_opcode& opcode);
+    void PushStack(uint16_t val);
+    uint16_t PopStack();
+    uint8_t GetRandom();
+    void DecodeOpcode0(const chip8_opcode& opcode);
+    void DecodeOpcode1(const chip8_opcode& opcode);
+    void DecodeOpcode2(const chip8_opcode& opcode);
+    void DecodeOpcode3(const chip8_opcode& opcode);
+    void DecodeOpcode4(const chip8_opcode& opcode);
+    void DecodeOpcode5(const chip8_opcode& opcode);
+    void DecodeOpcode6(const chip8_opcode& opcode);
+    void DecodeOpcode7(const chip8_opcode& opcode);
+    void DecodeOpcode8(const chip8_opcode& opcode);
+    void DecodeOpcode9(const chip8_opcode& opcode);
+    void DecodeOpcodeA(const chip8_opcode& opcode);
+    void DecodeOpcodeB(const chip8_opcode& opcode);
+    void DecodeOpcodeC(const chip8_opcode& opcode);
+    void DecodeOpcodeD(const chip8_opcode& opcode);
+    void DecodeOpcodeE(const chip8_opcode& opcode);
+    void DecodeOpcodeF(const chip8_opcode& opcode);
 
 private:
     static const uint8_t CHIP8_STACK_SIZE = 0xFF;
