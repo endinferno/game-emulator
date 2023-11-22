@@ -48,5 +48,3 @@ void chip8_app::run()
         if (window.update_render_tick()) window.update_screen(emulator);
     }
 }
-
-chip8_app::~chip8_app() {}
