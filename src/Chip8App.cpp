@@ -3,29 +3,29 @@
 #include "Chip8App.hpp"
 #include "Logger.hpp"
 
-Chip8App::Chip8App(const std::string& sdl_name, uint8_t width, uint8_t height)
+Chip8App::Chip8App(const std::string& sdlName, uint8_t width, uint8_t height)
     : emulator_(width, height)
-    , window_(sdl_name, width, height)
+    , window_(sdlName, width, height)
     , isQuit_(false)
 {}
 
-bool Chip8App::LoadRom(const std::string& rom_path)
+bool Chip8App::LoadRom(const std::string& romPath)
 {
-    uint8_t rom_content[4096] = { 0 };
-    uint16_t rom_content_len = 0;
-    std::ifstream rom(rom_path, std::ios::in | std::ios::binary);
+	std::array<uint8_t, ROM_CONTENT_SIZE> romContent;
+    uint16_t romContentLen = 0;
+    std::ifstream rom(romPath, std::ios::in | std::ios::binary);
     if (!rom) {
         ERROR("Fail to read rom file");
         return false;
     }
     rom.seekg(0, std::ios::end);
-    rom_content_len = rom.tellg();
+    romContentLen = rom.tellg();
     rom.seekg(0, std::ios::beg);
 
-    rom.read((char*)rom_content + 0x200, rom_content_len);
+    rom.read((char*)romContent.data() + 0x200, romContentLen);
     rom.close();
 
-    emulator_.SetRom(rom_content, rom_content_len + 0x200);
+    emulator_.SetRom(romContent.data(), romContentLen + 0x200);
 
     return true;
 }
