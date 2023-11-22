@@ -29,6 +29,6 @@ include_directories(${INCLUDE_LIST})
 aux_source_directory(${PROJECT_SOURCE_DIR}/src SRC_LIST)
 
 # Executable
-add_executable(${BINARY_NAME} main.cpp ${SRC_LIST})
+add_executable(${BINARY_NAME} Main.cpp ${SRC_LIST})
 target_link_libraries(${BINARY_NAME} ${SDL2_LIBRARIES})
 target_link_libraries(${BINARY_NAME} fmt)
