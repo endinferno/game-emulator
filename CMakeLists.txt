@@ -9,5 +9,7 @@ include_directories(${SDL2_INCLUDE_DIRS})
 include_directories(include)
 aux_source_directory(src SRC_LIST)
 
+add_subdirectory(dependencies)
+
 add_executable(${PROJECT_NAME} main.cpp ${SRC_LIST})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
