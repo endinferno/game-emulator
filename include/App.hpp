@@ -3,7 +3,6 @@
 
 #include <string>
 #include <cstdint>
-#include <fstream>
 #include <SDL2/SDL.h>
 
 #include "Window.hpp"
