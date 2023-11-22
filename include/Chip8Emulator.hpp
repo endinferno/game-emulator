@@ -48,28 +48,28 @@ private:
     void DecodeOpcodeF(const Chip8Opcode& opcode);
 
 private:
-    static const uint8_t CHIP8_STACK_SIZE = 0xFF;
-    static const uint8_t CHIP8_REG_COUNT = 16;
-    static const uint8_t CHIP8_KEY_COUNT = 16;
-    uint8_t screen_width;
-    uint8_t screen_height;
+    constexpr static uint8_t CHIP8_STACK_SIZE = 0xFF;
+    constexpr static uint8_t CHIP8_REG_COUNT = 16;
+    constexpr static uint8_t CHIP8_KEY_COUNT = 16;
+    uint8_t screenWidth_;
+    uint8_t screenHeight_;
 
-    uint16_t pc;
-    uint8_t delay_timer;
-    uint8_t sound_timer;
-    uint16_t I_reg;
-    std::vector<uint8_t> V_reg;
-    std::vector<bool> key_state;
+    uint16_t pc_;
+    uint8_t delayTimer_;
+    uint8_t soundTimer_;
+    uint16_t iReg_;
+    std::vector<uint8_t> vReg_;
+    std::vector<bool> keyState_;
 
-    std::vector<uint8_t> rom_content;
-    std::stack<uint16_t> rom_stack;
-    std::vector<std::vector<uint8_t>> screen;
-    bool in_wait;
-    std::vector<uint8_t>::iterator wait_reg;
+    std::vector<uint8_t> romContent_;
+    std::stack<uint16_t> romStack_;
+    std::vector<std::vector<uint8_t>> screen_;
+    bool inWait_;
+    std::vector<uint8_t>::iterator waitReg_;
 
-    std::unordered_map<int, uint8_t> chip8_key_map;
+    std::unordered_map<int, uint8_t> chip8KeyMap_;
 
-    std::random_device seed;
-    std::ranlux48 engine;
-    std::uniform_int_distribution<> distrib;
+    std::random_device seed_;
+    std::ranlux48 engine_;
+    std::uniform_int_distribution<> distrib_;
 };
