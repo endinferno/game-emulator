@@ -6,7 +6,7 @@
 #include <SDL2/SDL.h>
 
 #include "Chip8Emulator.hpp"
-#include "Window.hpp"
+#include "Chip8Window.hpp"
 
 class chip8_app
 {
