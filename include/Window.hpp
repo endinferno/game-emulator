@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+
 #include "Emulator.hpp"
 #include "Logger.hpp"
 

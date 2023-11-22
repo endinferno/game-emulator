@@ -61,7 +61,9 @@ enum chip8_opcode_F_type
 
 struct chip8_opcode_t
 {
-    chip8_opcode_t(uint16_t code) : opcode(code) {}
+    chip8_opcode_t(uint16_t code)
+        : opcode(code)
+    {}
     union
     {
         struct __attribute__((packed))

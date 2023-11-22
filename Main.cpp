@@ -1,11 +1,9 @@
-#include <iostream>
 #include "App.hpp"
 #include "Logger.hpp"
 
 int main(int argc, char* argv[])
 {
-    if (argc == 1)
-    {
+    if (argc == 1) {
         INFO("Usage: chip8 <rom>");
         return 1;
     }

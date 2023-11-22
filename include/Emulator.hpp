@@ -1,10 +1,12 @@
 #pragma once
 
-#include <stack>
-#include <vector>
 #include <random>
+#include <stack>
 #include <unordered_map>
+#include <vector>
+
 #include <SDL2/SDL.h>
+
 #include "Chip8Opcode.hpp"
 #include "Logger.hpp"
 
