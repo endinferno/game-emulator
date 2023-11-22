@@ -8,7 +8,6 @@
 #include <SDL2/SDL.h>
 
 #include "Chip8Opcode.hpp"
-#include "Logger.hpp"
 
 class chip8_emulator
 {
