@@ -106,5 +106,5 @@ public:
     bool IsRetOpcode() const;
 
 private:
-    struct chip8_opcode_t code;
+    chip8_opcode_t code_;
 };
