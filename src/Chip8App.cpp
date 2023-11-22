@@ -4,9 +4,9 @@
 #include "Logger.hpp"
 
 Chip8App::Chip8App(const std::string& sdl_name, uint8_t width, uint8_t height)
-    : emulator(width, height)
-    , window(sdl_name, width, height)
-    , quit(false)
+    : emulator_(width, height)
+    , window_(sdl_name, width, height)
+    , isQuit_(false)
 {}
 
 bool Chip8App::LoadRom(const std::string& rom_path)
@@ -25,7 +25,7 @@ bool Chip8App::LoadRom(const std::string& rom_path)
     rom.read((char*)rom_content + 0x200, rom_content_len);
     rom.close();
 
-    emulator.SetRom(rom_content, rom_content_len + 0x200);
+    emulator_.SetRom(rom_content, rom_content_len + 0x200);
 
     return true;
 }
@@ -34,17 +34,17 @@ void Chip8App::Run()
 {
     SDL_Event e;
 
-    while (!quit) {
+    while (!isQuit_) {
         while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT) quit = true;
-            emulator.HandleKeyEvent(e.type, e.key.keysym.sym);
+            if (e.type == SDL_QUIT) isQuit_ = true;
+            emulator_.HandleKeyEvent(e.type, e.key.keysym.sym);
         }
-        if (window.UpdateTimerTick()) emulator.DecreaseDelayTimer();
-        if (!emulator.IsWait()) {
-            Chip8Opcode opcode = emulator.Fetch();
-            emulator.Decode(opcode);
+        if (window_.UpdateTimerTick()) emulator_.DecreaseDelayTimer();
+        if (!emulator_.IsWait()) {
+            Chip8Opcode opcode = emulator_.Fetch();
+            emulator_.Decode(opcode);
         }
         SDL_Delay(1);
-        if (window.UpdateRenderTick()) window.UpdateScreen(emulator);
+        if (window_.UpdateRenderTick()) window_.UpdateScreen(emulator_);
     }
 }

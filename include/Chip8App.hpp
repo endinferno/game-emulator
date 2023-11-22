@@ -19,7 +19,7 @@ public:
     ~Chip8App() = default;
 
 private:
-    Chip8Emulator emulator;
-    Chip8Window window;
-    bool quit;
+    Chip8Emulator emulator_;
+    Chip8Window window_;
+    bool isQuit_;
 };
