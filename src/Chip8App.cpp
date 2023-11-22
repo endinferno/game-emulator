@@ -1,6 +1,6 @@
 #include <fstream>
 
-#include "App.hpp"
+#include "Chip8App.hpp"
 #include "Logger.hpp"
 
 chip8_app::chip8_app(const std::string& sdl_name, uint8_t width, uint8_t height)

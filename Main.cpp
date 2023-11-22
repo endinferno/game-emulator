@@ -1,4 +1,4 @@
-#include "App.hpp"
+#include "Chip8App.hpp"
 #include "Logger.hpp"
 
 int main(int argc, char* argv[])
