@@ -1,40 +1,20 @@
 #include "Chip8Emulator.hpp"
 #include "Logger.hpp"
 
-uint8_t font_set[] = {
-    0xF0, 0x90, 0x90, 0x90, 0xF0, 0x20, 0x60, 0x20, 0x20, 0x70, 0xF0, 0x10,
-    0xF0, 0x80, 0xF0, 0xF0, 0x10, 0xF0, 0x10, 0xF0, 0xA0, 0xA0, 0xF0, 0x20,
-    0x20, 0xF0, 0x80, 0xF0, 0x10, 0xF0, 0xF0, 0x80, 0xF0, 0x90, 0xF0, 0xF0,
-    0x10, 0x20, 0x40, 0x40, 0xF0, 0x90, 0xF0, 0x90, 0xF0, 0xF0, 0x90, 0xF0,
-    0x10, 0xF0, 0xF0, 0x90, 0xF0, 0x90, 0x90, 0xE0, 0x90, 0xE0, 0x90, 0xE0,
-    0xF0, 0x80, 0x80, 0x80, 0xF0, 0xE0, 0x90, 0x90, 0x90, 0xE0, 0xF0, 0x80,
-    0xF0, 0x80, 0xF0, 0xF0, 0x80, 0xF0, 0x80, 0x80,
-};
-
 Chip8Emulator::Chip8Emulator(uint8_t width, uint8_t height)
-    : vReg_(CHIP8_REG_COUNT, 0)
+    : screenWidth_(width)
+    , screenHeight_(height)
+    , vReg_(CHIP8_REG_COUNT, 0)
+    , keyState_(CHIP8_KEY_COUNT, false)
+    , screen_(width, std::vector<uint8_t>(height, 0))
+    , waitReg_(vReg_.begin())
     , engine_(seed_())
     , distrib_(0, 255)
-    , romStack_()
-    , screenWidth_(width)
-    , screenHeight_(height)
-    , screen_(width, std::vector<uint8_t>(height, 0))
-    , keyState_(CHIP8_KEY_COUNT, false)
-    , inWait_(false)
-    , waitReg_(vReg_.begin())
-    , pc_(0x200)
-{
-    chip8KeyMap_ = {
-        { SDLK_1, 0x1 }, { SDLK_2, 0x8 }, { SDLK_3, 0x3 }, { SDLK_4, 0xC },
-        { SDLK_q, 0x4 }, { SDLK_w, 0x5 }, { SDLK_e, 0x6 }, { SDLK_r, 0xD },
-        { SDLK_a, 0x7 }, { SDLK_s, 0x2 }, { SDLK_d, 0x9 }, { SDLK_f, 0xE },
-        { SDLK_z, 0xA }, { SDLK_x, 0x0 }, { SDLK_c, 0xB }, { SDLK_v, 0xF },
-    };
-}
+{}
 
 void Chip8Emulator::SetRom(uint8_t* content, uint16_t len)
 {
-    memcpy(content, font_set, sizeof(font_set) / sizeof(uint8_t));
+    memcpy(content, fontSet_.data(), fontSet_.size());
     romContent_ = std::vector<uint8_t>(content, content + len);
 }
 
@@ -45,17 +25,17 @@ void Chip8Emulator::DecreaseDelayTimer()
 
 Chip8Opcode Chip8Emulator::Fetch()
 {
-    uint16_t opcode = static_cast<uint16_t>(romContent_[pc_]);
+    auto opcode = static_cast<uint16_t>(romContent_[pc_]);
     opcode <<= 8;
     opcode |= romContent_[pc_ + 1];
     pc_ += 2;
-    return Chip8Opcode(opcode);
+    return { opcode };
 }
 
 void Chip8Emulator::Decode(const Chip8Opcode& opcode)
 {
-    Chip8OpcodeType opcode_type = opcode.GetOpcodeType();
-    switch (opcode_type) {
+    Chip8OpcodeType opcodeType = opcode.GetOpcodeType();
+    switch (opcodeType) {
     case CHIP8_OPCODE_TYPE_0: DecodeOpcode0(opcode); break;
     case CHIP8_OPCODE_TYPE_1: DecodeOpcode1(opcode); break;
     case CHIP8_OPCODE_TYPE_2: DecodeOpcode2(opcode); break;
@@ -73,20 +53,23 @@ void Chip8Emulator::Decode(const Chip8Opcode& opcode)
     case CHIP8_OPCODE_TYPE_E: DecodeOpcodeE(opcode); break;
     case CHIP8_OPCODE_TYPE_F: DecodeOpcodeF(opcode); break;
     default:
-        ERROR("Unknown opcode type: {:#04X}", static_cast<int>(opcode_type));
+        ERROR("Unknown opcode type: {:#04X}", static_cast<int>(opcodeType));
         break;
     }
 }
 
-void Chip8Emulator::HandleKeyEvent(uint32_t keytype, int keycode)
+void Chip8Emulator::HandleKeyEvent(SDL_Event& event)
 {
-    if (keytype != SDL_KEYDOWN && keytype != SDL_KEYUP) return;
-    if (!chip8KeyMap_.count(keycode)) return;
-    uint8_t chip8_key = chip8KeyMap_[keycode];
-    keyState_[chip8_key] = (keytype == SDL_KEYDOWN);
-    if (!inWait_ || !keyState_[chip8_key]) return;
+    uint32_t keyType = event.type;
+    int32_t keyCode = event.key.keysym.sym;
+
+    if (keyType != SDL_KEYDOWN && keyType != SDL_KEYUP) return;
+    if (!chip8KeyMap_.count(keyCode)) return;
+    uint8_t chip8Key = chip8KeyMap_[keyCode];
+    keyState_[chip8Key] = (keyType == SDL_KEYDOWN);
+    if (!inWait_ || !keyState_[chip8Key]) return;
     inWait_ = false;
-    *waitReg_ = chip8_key;
+    *waitReg_ = chip8Key;
 }
 
 const std::vector<std::vector<uint8_t>>& Chip8Emulator::GetScreen() const
@@ -165,44 +148,44 @@ void Chip8Emulator::DecodeOpcode7(const Chip8Opcode& opcode)
 
 void Chip8Emulator::DecodeOpcode8(const Chip8Opcode& opcode)
 {
-    uint8_t& reg_x = vReg_[opcode.GetRegX()];
-    uint8_t& reg_y = vReg_[opcode.GetRegY()];
-    uint8_t& VF_reg = vReg_[0xF];
+    uint8_t& regX = vReg_[opcode.GetRegX()];
+    uint8_t& regY = vReg_[opcode.GetRegY()];
+    uint8_t& vfReg = vReg_[0xF];
     switch (opcode.GetOpsType8()) {
-    case CHIP8_OPCODE_OPS_LDR: reg_x = reg_y; break;
-    case CHIP8_OPCODE_OPS_ORR: reg_x |= reg_y; break;
-    case CHIP8_OPCODE_OPS_AND: reg_x &= reg_y; break;
-    case CHIP8_OPCODE_OPS_XOR: reg_x ^= reg_y; break;
+    case CHIP8_OPCODE_OPS_LDR: regX = regY; break;
+    case CHIP8_OPCODE_OPS_ORR: regX |= regY; break;
+    case CHIP8_OPCODE_OPS_AND: regX &= regY; break;
+    case CHIP8_OPCODE_OPS_XOR: regX ^= regY; break;
     case CHIP8_OPCODE_OPS_ADD:
     {
         uint16_t sum =
-            static_cast<uint16_t>(reg_x) + static_cast<uint16_t>(reg_y);
-        VF_reg = sum > 0xFF ? 1 : 0;
-        reg_x = static_cast<uint8_t>(sum);
+            static_cast<uint16_t>(regX) + static_cast<uint16_t>(regY);
+        vfReg = sum > 0xFF ? 1 : 0;
+        regX = static_cast<uint8_t>(sum);
         break;
     }
     case CHIP8_OPCODE_OPS_SUB:
     {
-        VF_reg = reg_x < reg_y ? 0 : 1;
-        reg_x = reg_x - reg_y;
+        vfReg = regX < regY ? 0 : 1;
+        regX = regX - regY;
         break;
     }
     case CHIP8_OPCODE_OPS_SHR:
     {
-        VF_reg = reg_x & 0x1;
-        reg_x >>= 1;
+        vfReg = regX & 0x1;
+        regX >>= 1;
         break;
     }
     case CHIP8_OPCODE_OPS_SBN:
     {
-        VF_reg = reg_y < reg_x ? 0 : 1;
-        reg_x = reg_y - reg_x;
+        vfReg = regY < regX ? 0 : 1;
+        regX = regY - regX;
         break;
     }
     case CHIP8_OPCODE_OPS_SHL:
     {
-        VF_reg = (reg_x >> 7) & 0x1;
-        reg_x <<= 1;
+        vfReg = (regX >> 7) & 0x1;
+        regX <<= 1;
         break;
     }
     }
@@ -230,20 +213,20 @@ void Chip8Emulator::DecodeOpcodeC(const Chip8Opcode& opcode)
 
 void Chip8Emulator::DecodeOpcodeD(const Chip8Opcode& opcode)
 {
-    uint8_t loc_x_start = vReg_[opcode.GetRegX()] % screenWidth_;
-    uint8_t loc_y_start = vReg_[opcode.GetRegY()] % screenHeight_;
+    uint8_t locXStart = vReg_[opcode.GetRegX()] % screenWidth_;
+    uint8_t locYStart = vReg_[opcode.GetRegY()] % screenHeight_;
     uint8_t nibble = opcode.GetNibble();
-    std::vector<uint8_t>::iterator rom_it = romContent_.begin() + iReg_;
-    uint8_t& VF_reg = vReg_[0xF];
-    VF_reg = 0;
+    auto romIt = romContent_.begin() + iReg_;
+    uint8_t& vfReg = vReg_[0xF];
+    vfReg = 0;
     for (uint8_t x = 0; x < nibble; x++) {
-        uint8_t sprite = *(rom_it + x);
+        uint8_t sprite = *(romIt + x);
         for (uint8_t bit = 0; bit < 8; bit++) {
-            uint8_t loc_x = (loc_x_start + bit) % screenWidth_;
-            uint8_t loc_y = (loc_y_start + x) % screenHeight_;
+            uint8_t locX = (locXStart + bit) % screenWidth_;
+            uint8_t locY = (locYStart + x) % screenHeight_;
             uint8_t pixel = (sprite >> (7 - bit)) & 0x1;
-            if (screen_[loc_x][loc_y] == 1 && pixel == 1) VF_reg = 1;
-            screen_[loc_x][loc_y] ^= pixel;
+            if (screen_[locX][locY] == 1 && pixel == 1) vfReg = 1;
+            screen_[locX][locY] ^= pixel;
         }
     }
 }

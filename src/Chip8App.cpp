@@ -37,7 +37,7 @@ void Chip8App::Run()
     while (!isQuit_) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT) isQuit_ = true;
-            emulator_.HandleKeyEvent(e.type, e.key.keysym.sym);
+            emulator_.HandleKeyEvent(e);
         }
         if (window_.UpdateTimerTick()) emulator_.DecreaseDelayTimer();
         if (!emulator_.IsWait()) {
