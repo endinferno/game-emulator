@@ -7,7 +7,7 @@ using std::uint32_t;
 using std::uint64_t;
 using std::uint8_t;
 
-enum chip8_opcode_type
+enum Chip8OpcodeType
 {
     CHIP8_OPCODE_TYPE_0 = 0x0,
     CHIP8_OPCODE_TYPE_1 = 0x1,
@@ -27,7 +27,7 @@ enum chip8_opcode_type
     CHIP8_OPCODE_TYPE_F = 0xF,
 };
 
-enum chip8_opcode_8_type
+enum Chip8Opcode8Type
 {
     CHIP8_OPCODE_OPS_LDR = 0x0,
     CHIP8_OPCODE_OPS_ORR = 0x1,
@@ -40,13 +40,13 @@ enum chip8_opcode_8_type
     CHIP8_OPCODE_OPS_SHL = 0xE,
 };
 
-enum chip8_opcode_E_type
+enum Chip8OpcodeEType
 {
     CHIP8_OPCODE_SK_KP = 0x9E,
     CHIP8_OPCODE_SK_KN = 0xA1,
 };
 
-enum chip8_opcode_F_type
+enum Chip8OpcodeFType
 {
     CHIP8_OPCODE_LD_DT = 0x7,
     CHIP8_OPCODE_LD_KP = 0xA,
@@ -88,22 +88,22 @@ struct chip8_opcode_t
     };
 };
 
-class chip8_opcode
+class Chip8Opcode
 {
 public:
-    chip8_opcode();
-    chip8_opcode(uint16_t op);
-    uint16_t get_addr() const;
-    chip8_opcode_type get_opcode_type() const;
-    uint8_t get_kk() const;
-    uint8_t get_reg_x() const;
-    uint8_t get_reg_y() const;
-    uint8_t get_nibble() const;
-    chip8_opcode_8_type get_ops_type_8() const;
-    chip8_opcode_F_type get_ops_type_F() const;
-    chip8_opcode_E_type get_ops_type_E() const;
-    bool is_cls_opcode() const;
-    bool is_ret_opcode() const;
+    Chip8Opcode();
+    Chip8Opcode(uint16_t op);
+    uint16_t GetAddr() const;
+    Chip8OpcodeType GetOpcodeType() const;
+    uint8_t GetKk() const;
+    uint8_t GetRegX() const;
+    uint8_t GetRegY() const;
+    uint8_t GetNibble() const;
+    Chip8Opcode8Type GetOpsType8() const;
+    Chip8OpcodeFType GetOpsTypeF() const;
+    Chip8OpcodeEType GetOpsTypeE() const;
+    bool IsClsOpcode() const;
+    bool IsRetOpcode() const;
 
 private:
     struct chip8_opcode_t code;

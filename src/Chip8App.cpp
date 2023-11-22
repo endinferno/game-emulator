@@ -41,7 +41,7 @@ void Chip8App::Run()
         }
         if (window.update_timer_tick()) emulator.DecreaseDelayTimer();
         if (!emulator.IsWait()) {
-            chip8_opcode opcode = emulator.Fetch();
+            Chip8Opcode opcode = emulator.Fetch();
             emulator.Decode(opcode);
         }
         SDL_Delay(1);
