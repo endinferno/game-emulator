@@ -20,6 +20,6 @@ public:
 
 private:
     Chip8Emulator emulator;
-    chip8_window window;
+    Chip8Window window;
     bool quit;
 };

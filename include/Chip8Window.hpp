@@ -4,18 +4,18 @@
 
 #include "Chip8Emulator.hpp"
 
-class chip8_window
+class Chip8Window
 {
 public:
-    chip8_window(const std::string& sdl_name, uint32_t sdl_width,
+    Chip8Window(const std::string& sdl_name, uint32_t sdl_width,
                  uint32_t sdl_height);
 
-    bool update_timer_tick();
-    bool update_render_tick();
-    void update_screen(const Chip8Emulator& emulator);
-    void fill_block(uint32_t* pixels, int pitch, uint32_t color);
+    bool UpdateTimerTick();
+    bool UpdateRenderTick();
+    void UpdateScreen(const Chip8Emulator& emulator);
+    void FillBlock(uint32_t* pixels, int pitch, uint32_t color);
 
-    ~chip8_window();
+    ~Chip8Window() = default;
 
 private:
     static const uint32_t scale = 10;

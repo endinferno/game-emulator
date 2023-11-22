@@ -39,12 +39,12 @@ void Chip8App::Run()
             if (e.type == SDL_QUIT) quit = true;
             emulator.HandleKeyEvent(e.type, e.key.keysym.sym);
         }
-        if (window.update_timer_tick()) emulator.DecreaseDelayTimer();
+        if (window.UpdateTimerTick()) emulator.DecreaseDelayTimer();
         if (!emulator.IsWait()) {
             Chip8Opcode opcode = emulator.Fetch();
             emulator.Decode(opcode);
         }
         SDL_Delay(1);
-        if (window.update_render_tick()) window.update_screen(emulator);
+        if (window.UpdateRenderTick()) window.UpdateScreen(emulator);
     }
 }

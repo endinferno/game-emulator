@@ -1,7 +1,7 @@
 #include "Chip8Window.hpp"
 #include "Logger.hpp"
 
-chip8_window::chip8_window(const std::string& sdl_name, uint32_t sdl_width,
+Chip8Window::Chip8Window(const std::string& sdl_name, uint32_t sdl_width,
                            uint32_t sdl_height)
     : SDL_name(sdl_name)
     , sdl_width(sdl_width)
@@ -50,7 +50,7 @@ chip8_window::chip8_window(const std::string& sdl_name, uint32_t sdl_width,
     timer_interval = 1000 / 60;
 }
 
-bool chip8_window::update_timer_tick()
+bool Chip8Window::UpdateTimerTick()
 {
     uint32_t cur_timer_tick = SDL_GetTicks();
     if (cur_timer_tick - timer_tick >= timer_interval) {
@@ -60,7 +60,7 @@ bool chip8_window::update_timer_tick()
     return false;
 }
 
-bool chip8_window::update_render_tick()
+bool Chip8Window::UpdateRenderTick()
 {
     uint32_t cur_render_tick = SDL_GetTicks();
     if (cur_render_tick - render_tick >= render_interval) {
@@ -70,7 +70,7 @@ bool chip8_window::update_render_tick()
     return false;
 }
 
-void chip8_window::update_screen(const Chip8Emulator& emulator)
+void Chip8Window::UpdateScreen(const Chip8Emulator& emulator)
 {
     int pitch = 0;
     uint32_t* start_pixels = nullptr;
@@ -83,7 +83,7 @@ void chip8_window::update_screen(const Chip8Emulator& emulator)
             uint32_t color = (screen[x][y] == 0x0) ? 0x000000FF : 0xFFFFFFFF;
             uint32_t* pixels = start_pixels + x * scale + y * scale * pitch / 4;
             if (pixels[0] == color) continue;
-            fill_block(pixels, pitch, color);
+            FillBlock(pixels, pitch, color);
         }
     }
 
@@ -91,10 +91,8 @@ void chip8_window::update_screen(const Chip8Emulator& emulator)
     SDL_RenderCopy(renderer, texture, nullptr, nullptr);
     SDL_RenderPresent(renderer);
 }
-void chip8_window::fill_block(uint32_t* pixels, int pitch, uint32_t color)
+void Chip8Window::FillBlock(uint32_t* pixels, int pitch, uint32_t color)
 {
     for (uint32_t y = 0; y < scale; y++)
         for (uint32_t x = 0; x < scale; x++) pixels[x + y * pitch / 4] = color;
 }
-
-chip8_window::~chip8_window() {}
