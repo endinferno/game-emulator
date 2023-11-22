@@ -3,13 +3,13 @@
 #include "Chip8App.hpp"
 #include "Logger.hpp"
 
-chip8_app::chip8_app(const std::string& sdl_name, uint8_t width, uint8_t height)
+Chip8App::Chip8App(const std::string& sdl_name, uint8_t width, uint8_t height)
     : emulator(width, height)
     , window(sdl_name, width, height)
     , quit(false)
 {}
 
-bool chip8_app::load_rom(const std::string& rom_path)
+bool Chip8App::LoadRom(const std::string& rom_path)
 {
     uint8_t rom_content[4096] = { 0 };
     uint16_t rom_content_len = 0;
@@ -30,7 +30,7 @@ bool chip8_app::load_rom(const std::string& rom_path)
     return true;
 }
 
-void chip8_app::run()
+void Chip8App::Run()
 {
     SDL_Event e;
 

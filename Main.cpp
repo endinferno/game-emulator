@@ -7,8 +7,8 @@ int main(int argc, char* argv[])
         INFO("Usage: chip8 <rom>");
         return 1;
     }
-    chip8_app app("CHIP8 Emulator", 64, 32);
-    app.load_rom(argv[1]);
-    app.run();
+    Chip8App app("CHIP8 Emulator", 64, 32);
+    app.LoadRom(argv[1]);
+    app.Run();
     return 0;
 }

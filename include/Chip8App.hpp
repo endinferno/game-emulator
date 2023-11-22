@@ -8,15 +8,15 @@
 #include "Chip8Emulator.hpp"
 #include "Chip8Window.hpp"
 
-class chip8_app
+class Chip8App
 {
 public:
-    chip8_app(const std::string& sdl_name, uint8_t width, uint8_t height);
+    Chip8App(const std::string& sdl_name, uint8_t width, uint8_t height);
 
-    bool load_rom(const std::string& rom_path);
-    void run();
+    bool LoadRom(const std::string& rom_path);
+    void Run();
 
-    ~chip8_app() = default;
+    ~Chip8App() = default;
 
 private:
     chip8_emulator emulator;
