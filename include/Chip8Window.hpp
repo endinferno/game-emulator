@@ -18,14 +18,14 @@ public:
     ~Chip8Window() = default;
 
 private:
-    static const uint32_t scale = 10;
-    uint32_t sdl_width;
-    uint32_t sdl_height;
-    std::string SDL_name;
-    uint32_t render_tick, render_interval;
-    uint32_t timer_tick, timer_interval;
+    constexpr static uint32_t SCALE = 10;
+    uint32_t sdlWidth_;
+    uint32_t sdlHeight_;
+    std::string sdlName_;
+    uint32_t renderTick_, renderInterval_;
+    uint32_t timerTick_, timerInterval_;
 
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-    SDL_Texture* texture;
+    SDL_Window* window_;
+    SDL_Renderer* renderer_;
+    SDL_Texture* texture_;
 };
