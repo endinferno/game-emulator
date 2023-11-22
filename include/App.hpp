@@ -1,13 +1,11 @@
 #pragma once
 
 #include <cstdint>
-#include <fstream>
 #include <string>
 
 #include <SDL2/SDL.h>
 
 #include "Emulator.hpp"
-#include "Logger.hpp"
 #include "Window.hpp"
 
 class chip8_app
