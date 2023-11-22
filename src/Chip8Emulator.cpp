@@ -1,4 +1,4 @@
-#include "Emulator.hpp"
+#include "Chip8Emulator.hpp"
 #include "Logger.hpp"
 
 uint8_t font_set[] = {
