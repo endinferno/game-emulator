@@ -12,7 +12,7 @@ bool chip8_app::load_rom(const std::string& rom_path)
     std::ifstream rom(rom_path, std::ios::in | std::ios::binary);
     if (!rom)
     {
-        printf("Fail to read rom file\n");
+        ERROR("Fail to read rom file");
         return false;
     }
     rom.seekg(0, std::ios::end);

@@ -9,7 +9,7 @@ chip8_window::chip8_window(const std::string& sdl_name, uint32_t sdl_width,
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        printf("Fail to Init SDL Video: %s\n", SDL_GetError());
+        ERROR("Fail to Init SDL Video: {}", SDL_GetError());
         exit(1);
     }
 
@@ -18,7 +18,7 @@ chip8_window::chip8_window(const std::string& sdl_name, uint32_t sdl_width,
                               screen_height, SDL_WINDOW_SHOWN);
     if (window == nullptr)
     {
-        printf("Fail to Create SDL Window: %s\n", SDL_GetError());
+        ERROR("Fail to Create SDL Window: {}", SDL_GetError());
         exit(1);
     }
 
@@ -26,7 +26,7 @@ chip8_window::chip8_window(const std::string& sdl_name, uint32_t sdl_width,
     renderer = SDL_CreateRenderer(window, -1, flags);
     if (renderer == nullptr)
     {
-        printf("Fail to Create Renderer: %s\n", SDL_GetError());
+        ERROR("Fail to Create Renderer: {}", SDL_GetError());
         exit(1);
     }
 
@@ -36,7 +36,7 @@ chip8_window::chip8_window(const std::string& sdl_name, uint32_t sdl_width,
 
     if (texture == nullptr)
     {
-        printf("Fail to Create Texture: %s\n", SDL_GetError());
+        ERROR("Fail to Create Texture: %s\n", SDL_GetError());
         exit(1);
     }
     render_tick = 0;

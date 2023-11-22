@@ -8,6 +8,7 @@
 
 #include "Window.hpp"
 #include "Emulator.hpp"
+#include "Logger.hpp"
 
 class chip8_app
 {

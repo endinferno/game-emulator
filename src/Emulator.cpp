@@ -72,7 +72,7 @@ void chip8_emulator::decode(const chip8_opcode& opcode)
         case CHIP8_OPCODE_TYPE_D: decode_opcode_D(opcode); break;
         case CHIP8_OPCODE_TYPE_E: decode_opcode_E(opcode); break;
         case CHIP8_OPCODE_TYPE_F: decode_opcode_F(opcode); break;
-        default: printf("Unknown opcode type: %04X\n", opcode_type); break;
+		default: ERROR("Unknown opcode type: {:#04X}", static_cast<int>(opcode_type)); break;
     }
 }
 
