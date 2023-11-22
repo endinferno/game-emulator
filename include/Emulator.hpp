@@ -1,5 +1,4 @@
-#ifndef __EMULATOR_H
-#define __EMULATOR_H
+#pragma once
 
 #include <stack>
 #include <vector>
@@ -73,5 +72,3 @@ private:
     std::ranlux48 engine;
     std::uniform_int_distribution<> distrib;
 };
-
-#endif /* __EMULATOR_H */

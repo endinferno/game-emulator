@@ -1,5 +1,4 @@
-#ifndef __SDL_WINDOW_H
-#define __SDL_WINDOW_H
+#pragma once
 
 #include <SDL2/SDL.h>
 #include "Emulator.hpp"
@@ -30,5 +29,3 @@ private:
     SDL_Renderer* renderer;
     SDL_Texture* texture;
 };
-
-#endif /* __SDL_WINDOW_H */

@@ -1,9 +1,9 @@
-#ifndef __CHIP8_APP_H__
-#define __CHIP8_APP_H__
+#pragma once
 
 #include <string>
 #include <cstdint>
 #include <SDL2/SDL.h>
+#include <fstream>
 
 #include "Window.hpp"
 #include "Emulator.hpp"
@@ -24,5 +24,3 @@ private:
     chip8_window window;
     bool quit;
 };
-
-#endif /* __CHIP8_APP_H__ */
