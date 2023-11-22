@@ -1,4 +1,4 @@
-#include "chip8_opcode.h"
+#include "Chip8Opcode.hpp"
 
 chip8_opcode::chip8_opcode() : code(0) {}
 

@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
-#include "emulator.h"
+#include "Emulator.hpp"
 
 class chip8_window
 {

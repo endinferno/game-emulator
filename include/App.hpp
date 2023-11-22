@@ -6,8 +6,8 @@
 #include <fstream>
 #include <SDL2/SDL.h>
 
-#include "window.h"
-#include "emulator.h"
+#include "Window.hpp"
+#include "Emulator.hpp"
 
 class chip8_app
 {

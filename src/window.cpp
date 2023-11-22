@@ -1,4 +1,4 @@
-#include "window.h"
+#include "Window.hpp"
 
 chip8_window::chip8_window(const std::string& sdl_name, uint32_t sdl_width,
                            uint32_t sdl_height)

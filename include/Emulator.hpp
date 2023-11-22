@@ -6,7 +6,7 @@
 #include <random>
 #include <unordered_map>
 #include <SDL2/SDL.h>
-#include "chip8_opcode.h"
+#include "Chip8Opcode.hpp"
 
 class chip8_emulator
 {
