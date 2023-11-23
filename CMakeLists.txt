@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-set(BINARY_NAME game_emulator)
+set(BINARY_NAME GameEmulator)
 project(${BINARY_NAME})
 
 set(CMAKE_CXX_STANDARD 17)
