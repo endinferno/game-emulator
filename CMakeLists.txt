@@ -18,10 +18,9 @@ endif()
 
 # Dependency
 add_subdirectory(dependencies)
-find_package(SDL2 REQUIRED)
+find_package(SFML 2.6 COMPONENTS system window graphics network audio REQUIRED)
 
 # Include 
-include_directories(${SDL2_INCLUDE_DIRS})
 set(INCLUDE_LIST ${PROJECT_SOURCE_DIR}/include)
 include_directories(${INCLUDE_LIST})
 
@@ -30,5 +29,5 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/src SRC_LIST)
 
 # Executable
 add_executable(${BINARY_NAME} Main.cpp ${SRC_LIST})
-target_link_libraries(${BINARY_NAME} ${SDL2_LIBRARIES})
 target_link_libraries(${BINARY_NAME} fmt)
+target_link_libraries(${BINARY_NAME} sfml-window sfml-graphics sfml-system)

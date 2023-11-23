@@ -4,13 +4,14 @@
 Chip8Emulator::Chip8Emulator(uint8_t width, uint8_t height)
     : screenWidth_(width)
     , screenHeight_(height)
-    , vReg_(CHIP8_REG_COUNT, 0)
-    , keyState_(CHIP8_KEY_COUNT, false)
     , screen_(width, std::vector<uint8_t>(height, 0))
     , waitReg_(vReg_.begin())
     , engine_(seed_())
     , distrib_(0, 255)
-{}
+{
+    vReg_.fill(0);
+    keyState_.fill(false);
+}
 
 void Chip8Emulator::SetRom(uint8_t* content, uint16_t len)
 {
@@ -63,19 +64,33 @@ void Chip8Emulator::Decode(const Chip8Opcode& opcode)
     }
 }
 
-void Chip8Emulator::HandleKeyEvent(SDL_Event& event)
+void Chip8Emulator::HandleEvent(const sf::Event& event)
 {
-    uint32_t keyType = event.type;
-    int32_t keyCode = event.key.keysym.sym;
+    HandleCloseEvent(event);
+    HandleKeyEvent(event);
+}
 
-    if (keyType != SDL_KEYDOWN && keyType != SDL_KEYUP) {
+void Chip8Emulator::HandleCloseEvent(const sf::Event& event)
+{
+    if (event.type == sf::Event::Closed) {
+        isQuit_ = true;
+    }
+}
+
+void Chip8Emulator::HandleKeyEvent(const sf::Event& event)
+{
+    auto keyType = event.type;
+    auto keyCode = event.key.code;
+
+    if (keyType != sf::Event::EventType::KeyPressed &&
+        keyType != sf::Event::EventType::KeyReleased) {
         return;
     }
     if (!chip8KeyMap_.count(keyCode)) {
         return;
     }
     uint8_t chip8Key = chip8KeyMap_[keyCode];
-    keyState_[chip8Key] = (keyType == SDL_KEYDOWN);
+    keyState_[chip8Key] = (keyType == sf::Event::EventType::KeyPressed);
     if (!inWait_ || !keyState_[chip8Key]) {
         return;
     }
@@ -91,6 +106,11 @@ const std::vector<std::vector<uint8_t>>& Chip8Emulator::GetScreen() const
 bool Chip8Emulator::IsWait() const
 {
     return inWait_;
+}
+
+bool Chip8Emulator::IsQuit() const
+{
+    return isQuit_;
 }
 
 void Chip8Emulator::PushStack(uint16_t val)

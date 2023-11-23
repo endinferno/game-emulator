@@ -3,8 +3,6 @@
 #include <cstdint>
 #include <string>
 
-#include <SDL2/SDL.h>
-
 #include "Chip8Emulator.hpp"
 #include "Chip8Window.hpp"
 
@@ -22,5 +20,4 @@ private:
     constexpr static int ROM_CONTENT_SIZE = 4096;
     Chip8Emulator emulator_;
     Chip8Window window_;
-    bool isQuit_ = false;
 };

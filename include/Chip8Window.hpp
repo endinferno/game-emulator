@@ -1,6 +1,8 @@
 #pragma once
 
-#include <SDL2/SDL.h>
+#include <optional>
+
+#include <SFML/Graphics.hpp>
 
 #include "Chip8Emulator.hpp"
 
@@ -13,19 +15,20 @@ public:
     bool UpdateTimerTick();
     bool UpdateRenderTick();
     void UpdateScreen(const Chip8Emulator& emulator);
-    void FillBlock(uint32_t* pixels, int pitch, uint32_t color);
+    std::optional<sf::Event> PollEvent();
 
-    ~Chip8Window() = default;
+    ~Chip8Window();
 
 private:
     constexpr static int32_t SCALE = 10;
     std::string sdlName_;
     int32_t sdlWidth_;
     int32_t sdlHeight_;
-    uint32_t renderTick_, renderInterval_;
-    uint32_t timerTick_, timerInterval_;
+    int32_t renderTick_, renderInterval_;
+    int32_t timerTick_, timerInterval_;
 
-    SDL_Window* window_;
-    SDL_Renderer* renderer_;
-    SDL_Texture* texture_;
+    std::vector<std::vector<std::pair<int32_t, int32_t>>> pixelLocTable_;
+    sf::RenderWindow window_;
+    sf::Clock clock_;
+    sf::RectangleShape renderedPixel_;
 };

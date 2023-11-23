@@ -1,4 +1,5 @@
 #include <fstream>
+#include <thread>
 
 #include "Chip8App.hpp"
 #include "Logger.hpp"
@@ -31,14 +32,10 @@ bool Chip8App::LoadRom(const std::string& romPath)
 
 void Chip8App::Run()
 {
-    SDL_Event e;
-
-    while (!isQuit_) {
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT) {
-                isQuit_ = true;
-            }
-            emulator_.HandleKeyEvent(e);
+    while (!emulator_.IsQuit()) {
+        auto eventOption = window_.PollEvent();
+        if (eventOption.has_value()) {
+            emulator_.HandleEvent(eventOption.value());
         }
         if (window_.UpdateTimerTick()) {
             emulator_.DecreaseDelayTimer();
@@ -47,7 +44,7 @@ void Chip8App::Run()
             Chip8Opcode opcode = emulator_.Fetch();
             emulator_.Decode(opcode);
         }
-        SDL_Delay(1);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
         if (window_.UpdateRenderTick()) {
             window_.UpdateScreen(emulator_);
         }
