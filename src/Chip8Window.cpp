@@ -78,8 +78,8 @@ void Chip8Window::UpdateScreen(const Chip8Emulator& emulator)
 
     SDL_LockTexture(texture_, nullptr, (void**)&startPixels, &pitch);
 
-    for (uint32_t x = 0; x < sdlWidth_; x++) {
-        for (uint32_t y = 0; y < sdlHeight_; y++) {
+    for (int32_t x = 0; x < sdlWidth_; x++) {
+        for (int32_t y = 0; y < sdlHeight_; y++) {
             uint32_t color = (screen[x][y] == 0x0) ? 0x000000FF : 0xFFFFFFFF;
             ptrdiff_t ptrDiff = x * SCALE + y * SCALE * pitch / 4;
             uint32_t* pixels = startPixels + ptrDiff;
