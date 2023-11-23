@@ -93,7 +93,7 @@ class Chip8Opcode
 public:
     Chip8Opcode();
     Chip8Opcode(uint16_t op);
-	[[nodiscard]] uint16_t GetAddr() const;
+    [[nodiscard]] uint16_t GetAddr() const;
     [[nodiscard]] Chip8OpcodeType GetOpcodeType() const;
     [[nodiscard]] uint8_t GetKk() const;
     [[nodiscard]] uint8_t GetRegX() const;
