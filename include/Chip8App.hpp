@@ -9,7 +9,7 @@
 class Chip8App
 {
 public:
-    Chip8App(const std::string& sdlName, uint8_t width, uint8_t height);
+    Chip8App(const std::string& appName, uint8_t winWidth, uint8_t winHeight);
 
     bool LoadRom(const std::string& romPath);
     void Run();

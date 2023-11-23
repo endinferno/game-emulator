@@ -4,9 +4,10 @@
 #include "Chip8App.hpp"
 #include "Logger.hpp"
 
-Chip8App::Chip8App(const std::string& sdlName, uint8_t width, uint8_t height)
-    : emulator_(width, height)
-    , window_(sdlName, { width, height })
+Chip8App::Chip8App(const std::string& appName, uint8_t winWidth,
+                   uint8_t winHeight)
+    : emulator_(winWidth, winHeight)
+    , window_(appName, { winWidth, winHeight })
 {}
 
 bool Chip8App::LoadRom(const std::string& romPath)

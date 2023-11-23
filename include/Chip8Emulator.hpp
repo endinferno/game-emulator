@@ -12,7 +12,7 @@
 class Chip8Emulator
 {
 public:
-    Chip8Emulator(uint8_t width, uint8_t height);
+    Chip8Emulator(uint8_t winWidth, uint8_t winHeight);
 
     void SetRom(uint8_t* content, uint16_t len);
     void DecreaseDelayTimer();
@@ -54,8 +54,8 @@ private:
     constexpr static uint8_t CHIP8_STACK_SIZE = 0xFF;
     constexpr static uint8_t CHIP8_REG_COUNT = 16;
     constexpr static uint8_t CHIP8_KEY_COUNT = 16;
-    uint8_t screenWidth_;
-    uint8_t screenHeight_;
+    uint8_t winWidth_;
+    uint8_t winHeight_;
 
     uint16_t pc_ = 0x200;
     uint8_t delayTimer_;

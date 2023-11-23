@@ -1,10 +1,10 @@
 #include "Chip8Emulator.hpp"
 #include "Logger.hpp"
 
-Chip8Emulator::Chip8Emulator(uint8_t width, uint8_t height)
-    : screenWidth_(width)
-    , screenHeight_(height)
-    , screen_(width, std::vector<uint8_t>(height, 0))
+Chip8Emulator::Chip8Emulator(uint8_t winWidth, uint8_t winHeight)
+    : winWidth_(winWidth)
+    , winHeight_(winHeight)
+    , screen_(winWidth, std::vector<uint8_t>(winHeight, 0))
     , waitReg_(vReg_.begin())
     , engine_(seed_())
     , distrib_(0, 255)
@@ -133,11 +133,9 @@ uint8_t Chip8Emulator::GetRandom()
 void Chip8Emulator::DecodeOpcode0(const Chip8Opcode& opcode)
 {
     if (opcode.IsClsOpcode()) {
-        for (int i = 0; i < screenWidth_; i++) {
-            for (int j = 0; j < screenHeight_; j++) {
-                screen_[i][j] = 0;
-            }
-        }
+        std::for_each(screen_.begin(), screen_.end(), [](auto& row) {
+            std::fill(row.begin(), row.end(), 0);
+        });
     }
     else if (opcode.IsRetOpcode()) {
         pc_ = PopStack();
@@ -271,8 +269,8 @@ void Chip8Emulator::DecodeOpcodeC(const Chip8Opcode& opcode)
 
 void Chip8Emulator::DecodeOpcodeD(const Chip8Opcode& opcode)
 {
-    uint8_t locXStart = vReg_[opcode.GetRegX()] % screenWidth_;
-    uint8_t locYStart = vReg_[opcode.GetRegY()] % screenHeight_;
+    uint8_t locXStart = vReg_[opcode.GetRegX()] % winWidth_;
+    uint8_t locYStart = vReg_[opcode.GetRegY()] % winHeight_;
     uint8_t nibble = opcode.GetNibble();
     auto romIt = romContent_.begin() + iReg_;
     uint8_t& vfReg = vReg_[0xF];
@@ -280,8 +278,8 @@ void Chip8Emulator::DecodeOpcodeD(const Chip8Opcode& opcode)
     for (uint8_t x = 0; x < nibble; x++) {
         uint8_t sprite = *(romIt + x);
         for (uint8_t bit = 0; bit < 8; bit++) {
-            uint8_t locX = (locXStart + bit) % screenWidth_;
-            uint8_t locY = (locYStart + x) % screenHeight_;
+            uint8_t locX = (locXStart + bit) % winWidth_;
+            uint8_t locY = (locYStart + x) % winHeight_;
             uint8_t pixel = (sprite >> (7 - bit)) & 0x1;
             if (screen_[locX][locY] == 1 && pixel == 1) {
                 vfReg = 1;
