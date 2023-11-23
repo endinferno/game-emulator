@@ -22,5 +22,5 @@ private:
     constexpr static int ROM_CONTENT_SIZE = 4096;
     Chip8Emulator emulator_;
     Chip8Window window_;
-    bool isQuit_;
+    bool isQuit_ = false;
 };

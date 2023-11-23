@@ -93,17 +93,17 @@ class Chip8Opcode
 public:
     Chip8Opcode();
     Chip8Opcode(uint16_t op);
-    uint16_t GetAddr() const;
-    Chip8OpcodeType GetOpcodeType() const;
-    uint8_t GetKk() const;
-    uint8_t GetRegX() const;
-    uint8_t GetRegY() const;
-    uint8_t GetNibble() const;
-    Chip8Opcode8Type GetOpsType8() const;
-    Chip8OpcodeFType GetOpsTypeF() const;
-    Chip8OpcodeEType GetOpsTypeE() const;
-    bool IsClsOpcode() const;
-    bool IsRetOpcode() const;
+	[[nodiscard]] uint16_t GetAddr() const;
+    [[nodiscard]] Chip8OpcodeType GetOpcodeType() const;
+    [[nodiscard]] uint8_t GetKk() const;
+    [[nodiscard]] uint8_t GetRegX() const;
+    [[nodiscard]] uint8_t GetRegY() const;
+    [[nodiscard]] uint8_t GetNibble() const;
+    [[nodiscard]] Chip8Opcode8Type GetOpsType8() const;
+    [[nodiscard]] Chip8OpcodeFType GetOpsTypeF() const;
+    [[nodiscard]] Chip8OpcodeEType GetOpsTypeE() const;
+    [[nodiscard]] bool IsClsOpcode() const;
+    [[nodiscard]] bool IsRetOpcode() const;
 
 private:
     chip8_opcode_t code_;

@@ -7,8 +7,8 @@
 class Chip8Window
 {
 public:
-    Chip8Window(const std::string& sdl_name, uint32_t sdl_width,
-                 uint32_t sdl_height);
+    Chip8Window(const std::string& sdlName,
+                const std::pair<int32_t, int32_t>& sdlWindowSize);
 
     bool UpdateTimerTick();
     bool UpdateRenderTick();
@@ -18,10 +18,10 @@ public:
     ~Chip8Window() = default;
 
 private:
-    constexpr static uint32_t SCALE = 10;
-    uint32_t sdlWidth_;
-    uint32_t sdlHeight_;
+    constexpr static int32_t SCALE = 10;
     std::string sdlName_;
+    int32_t sdlWidth_;
+    int32_t sdlHeight_;
     uint32_t renderTick_, renderInterval_;
     uint32_t timerTick_, timerInterval_;
 
