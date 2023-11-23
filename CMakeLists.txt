@@ -20,7 +20,7 @@ endif()
 add_subdirectory(dependencies)
 find_package(SFML 2.6 COMPONENTS system window graphics network audio REQUIRED)
 
-# Include 
+# Include
 set(INCLUDE_LIST ${PROJECT_SOURCE_DIR}/include)
 include_directories(${INCLUDE_LIST})
 
