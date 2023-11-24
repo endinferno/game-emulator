@@ -18,7 +18,6 @@ endif()
 
 # Dependency
 add_subdirectory(dependencies)
-find_package(SFML 2 COMPONENTS system window graphics network audio REQUIRED)
 
 # Include
 set(INCLUDE_LIST ${PROJECT_SOURCE_DIR}/include)
