@@ -1,18 +1,18 @@
 #include "Chip8Window.hpp"
-#include "Logger.hpp"
 
 Chip8Window::Chip8Window(const std::string& winName,
-                         const std::pair<int32_t, int32_t>& winSize)
+                         const std::pair<uint32_t, uint32_t>& winSize)
     : winName_(winName)
     , winWidth_(winSize.first)
     , winHeight_(winSize.second)
     , pixelLocTable_(winWidth_, std::vector<std::pair<int32_t, int32_t>>(
                                     winHeight_, { 0, 0 }))
-    , window_(sf::VideoMode(winWidth_ * SCALE, winHeight_ * SCALE), winName_)
+    , window_(sf::VideoMode({ winWidth_ * SCALE, winHeight_ * SCALE }),
+              winName_)
     , renderedPixel_({ SCALE, SCALE })
 {
-    for (int32_t i = 0; i < winWidth_; i++) {
-        for (int32_t j = 0; j < winHeight_; j++) {
+    for (uint32_t i = 0; i < winWidth_; i++) {
+        for (uint32_t j = 0; j < winHeight_; j++) {
             pixelLocTable_[i][j] = { -i * SCALE, -j * SCALE };
         }
     }
@@ -42,7 +42,7 @@ bool Chip8Window::UpdateTimerTick()
 
 bool Chip8Window::UpdateRenderTick()
 {
-    auto curRenderTick = clock_.getElapsedTime().asMicroseconds();
+    auto curRenderTick = clock_.getElapsedTime().asMilliseconds();
     if (curRenderTick - renderTick_ >= renderInterval_) {
         renderTick_ = curRenderTick;
         return true;
@@ -55,13 +55,14 @@ void Chip8Window::UpdateScreen(const Chip8Emulator& emulator)
     const std::vector<std::vector<uint8_t>>& screen = emulator.GetScreen();
 
     window_.clear();
-    for (int32_t x = 0; x < winWidth_; x++) {
-        for (int32_t y = 0; y < winHeight_; y++) {
+    for (uint32_t x = 0; x < winWidth_; x++) {
+        for (uint32_t y = 0; y < winHeight_; y++) {
             if (screen[x][y] == 0x0) {
                 continue;
             }
             auto p = pixelLocTable_[x][y];
-            renderedPixel_.setOrigin(p.first, p.second);
+            renderedPixel_.setOrigin(
+                { static_cast<float>(p.first), static_cast<float>(p.second) });
             window_.draw(renderedPixel_);
         }
     }
