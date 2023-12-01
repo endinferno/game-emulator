@@ -16,6 +16,7 @@ public:
     CPU6502(std::shared_ptr<NesReader>& nesReader);
 
     void Reset();
+    void Run();
     Opcode6502 ReadOpcode();
     void InputOpcode(const Opcode6502& opcode);
     void InputOpcode(const Opcode6502& opcode, uint8_t val);

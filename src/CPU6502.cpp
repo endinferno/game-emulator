@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include "CPU6502.hpp"
 #include "Logger.hpp"
 #include "NesOpcode.hpp"
@@ -28,11 +30,21 @@ void CPU6502::Reset(uint16_t startAddr)
     memory_->Reset();
 }
 
+void CPU6502::Run()
+{
+    int cnt = 5;
+    while (cnt--) {
+        auto opcode = ReadOpcode();
+        PrintOpcode(opcode);
+        InputOpcode(opcode);
+    }
+}
+
 Opcode6502 CPU6502::ReadOpcode()
 {
-    uint8_t opcode = memory_->Read(pc_);
+    uint8_t opcodeVal = memory_->Read(pc_);
     IncreasePC(1);
-    return DecodeOpcode(opcode);
+    return DecodeOpcode(opcodeVal);
 }
 
 Opcode6502 CPU6502::DecodeOpcode(uint8_t opcode) const
@@ -50,7 +62,11 @@ Opcode6502 CPU6502::DecodeOpcode(uint8_t opcode) const
     case 0xB0: return Opcode6502::BCS;
     case 0xC9: return Opcode6502::CMP;
     case 0xD8: return Opcode6502::CLD;
-    default: return Opcode6502::INVALID;
+    default:
+    {
+        DEBUG("Invalid opcode: {:X}", opcode);
+        return Opcode6502::INVALID;
+    }
     }
 }
 
@@ -96,6 +112,12 @@ void CPU6502::InputOpcode(const Opcode6502& opcode)
         }
         break;
     }
+    case Opcode6502::INVALID:
+    {
+        DEBUG("Invalid opcode");
+        assert(false);
+        break;
+    }
     default: break;
     }
 }
@@ -125,6 +147,12 @@ void CPU6502::InputOpcode(const Opcode6502& opcode, uint8_t val)
         pStatus_->SetNegativeFlag((val & 0x80) != 0);
         break;
     }
+    case Opcode6502::INVALID:
+    {
+        DEBUG("Invalid opcode");
+        assert(false);
+        break;
+    }
     default:
     {
         break;
@@ -143,6 +171,12 @@ void CPU6502::InputOpcode(const Opcode6502& opcode, uint16_t val)
     case Opcode6502::LDA:
     {
         StoreDataAccumReg(memory_->Read(val));
+        break;
+    }
+    case Opcode6502::INVALID:
+    {
+        DEBUG("Invalid opcode");
+        assert(false);
         break;
     }
     default:
