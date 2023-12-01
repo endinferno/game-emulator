@@ -72,18 +72,31 @@ uint8_t NesHeader::GetMapperType() const
 std::string NesHeader::ToString() const
 {
     std::string fmtStr;
-    fmtStr += fmt::format("{:<15} : {}\n", "Num Rom Banks", numRomBanks_);
-    fmtStr += fmt::format("{:<15} : {}\n", "Num VRom Banks", numVRomBanks_);
-    fmtStr += fmt::format("{:<15} : {}\n", "Mirroring Type", mirroringType_);
-    fmtStr +=
-        fmt::format("{:<15} : {}\n", "Battery Backed Ram", batteryBackedRam_);
-    fmtStr += fmt::format("{:<15} : {}\n", "Trainer", trainer_);
-    fmtStr += fmt::format("{:<15} : {}\n", "Four Screen vRam", fourScreenvRam_);
-    fmtStr += fmt::format("{:<15} : {}\n", "VS Unisystem", VSUnisystem_);
-    fmtStr += fmt::format("{:<15} : {}\n", "Num Ram Banks", numRamBanks_);
-    fmtStr += fmt::format("{:<15} : {}\n", "TV System", TVSystem_);
-    fmtStr += fmt::format("{:<15} : {}\n", "Mapper Type", mapperType_);
-
+    fmtStr += fmt::format("NES Header\n");
+    fmtStr += fmt::format("{:<16}{:<16}{:<16}{:<16}{:<16}{:<16}"
+                          "{:<16}{:<16}{:<16}{:<16}\n",
+                          "Rom Banks",
+                          "VRom Banks",
+                          "Mirror Type",
+                          "Battery Ram",
+                          "Trainer",
+                          "Four Screen",
+                          "VS Unisystem",
+                          "Ram Banks",
+                          "TV System",
+                          "Mapper Type");
+    fmtStr += fmt::format("{:<16X}{:<16X}{:<16X}{:<16X}{:<16X}{:<16X}"
+                          "{:<16X}{:<16X}{:<16X}{:<16X}",
+                          GetNumRomBanks(),
+                          GetNumVRomBanks(),
+                          GetMirroringType(),
+                          GetBatteryBackedRam(),
+                          GetTrainer(),
+                          GetFourScreenvRam(),
+                          GetVSUnisystem(),
+                          GetNumRamBanks(),
+                          GetTVSystem(),
+                          GetMapperType());
 
     return fmtStr;
 }

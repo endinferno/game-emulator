@@ -96,7 +96,7 @@ std::string PStatusReg6502::ToString() const
 {
     std::string fmtStr;
     fmtStr += fmt::format("Processor Status Register\n");
-    fmtStr += fmt::format("{:<8} {:<8} {:<8} {:<8} {:<8} {:<8} {:<8}\n",
+    fmtStr += fmt::format("{:<8}{:<8}{:<8}{:<8}{:<8}{:<8}{:<8}\n",
                           "Carry",
                           "Zero",
                           "IntDis",
@@ -104,7 +104,7 @@ std::string PStatusReg6502::ToString() const
                           "Break",
                           "Overflow",
                           "Negative");
-    fmtStr += fmt::format("{:<8} {:<8} {:<8} {:<8} {:<8} {:<8} {:<8}\n",
+    fmtStr += fmt::format("{:<8}{:<8}{:<8}{:<8}{:<8}{:<8}{:<8}",
                           GetCarryFlag(),
                           GetZeroFlag(),
                           GetInterruptDisableFlag(),

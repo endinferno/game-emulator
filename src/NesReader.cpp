@@ -75,9 +75,10 @@ std::shared_ptr<std::vector<uint8_t>> NesReader::GetVRom() const
 std::string NesReader::ToString() const
 {
     std::string fmtStr = "";
-    fmtStr += "Rom File Name: " + romFileName_ + "\n";
-    fmtStr += "Rom File Length: " + fmt::format("{}", nesRom_->size()) + "\n";
-    fmtStr += "VRom File Length: " + fmt::format("{}", nesvRom_->size()) + "\n";
+    fmtStr += fmt::format("NES Rom\n");
+    fmtStr += fmt::format("{:<16}: {}\n", "File Name", romFileName_);
+    fmtStr += fmt::format("{:<16}: {}\n", "Rom Length", nesRom_->size());
+    fmtStr += fmt::format("{:<16}: {}\n", "VRom Length", nesvRom_->size());
     fmtStr += nesHeader_->ToString();
     return fmtStr;
 }
