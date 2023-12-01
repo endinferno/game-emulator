@@ -3,6 +3,13 @@
 
 PPU6502::PPU6502() {}
 
+void PPU6502::reset()
+{
+    ppuCtrl_ = 0;
+    ppuMask_ = 0;
+    ppuStatus_ = 0;
+}
+
 uint8_t PPU6502::read(const uint16_t& addr) const
 {
     switch (addr) {

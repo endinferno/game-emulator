@@ -1,13 +1,34 @@
 #include "CPU6502.hpp"
+#include "Logger.hpp"
 #include "NesOpcode.hpp"
-#include "fmt/core.h"
 
 CPU6502::CPU6502(std::shared_ptr<NesReader>& nesReader)
     : pStatus_(std::make_shared<PStatusReg6502>())
     , memory_(std::make_shared<Memory6502>(nesReader))
-{}
+{
+    reset();
+}
 
-Opcode6502 CPU6502::DecodeOpcode(uint8_t& opcode) const
+void CPU6502::reset()
+{
+    uint16_t lowerAddr = memory_->read(RESET_VECTOR_ADDR);
+    uint16_t upperAddr = memory_->read(RESET_VECTOR_ADDR + 1);
+    reset(lowerAddr | upperAddr << 8);
+}
+
+void CPU6502::reset(uint16_t startAddr)
+{
+    DEBUG("Reset CPU at address: {:X}", startAddr);
+    accumReg_ = 0;
+    xReg_ = 0;
+    yReg_ = 0;
+    sp_ = 0xfd;
+    pc_ = startAddr;
+    pStatus_->reset();
+    memory_->reset();
+}
+
+Opcode6502 CPU6502::DecodeOpcode(uint8_t opcode) const
 {
     switch (opcode) {
     case 0x10: return Opcode6502::BPL;
@@ -72,7 +93,7 @@ void CPU6502::InputOpcode(const Opcode6502& opcode)
     }
 }
 
-void CPU6502::InputOpcode(const Opcode6502& opcode, uint8_t& val)
+void CPU6502::InputOpcode(const Opcode6502& opcode, uint8_t val)
 {
     switch (opcode) {
     case Opcode6502::LDA:
@@ -104,7 +125,7 @@ void CPU6502::InputOpcode(const Opcode6502& opcode, uint8_t& val)
     }
 }
 
-void CPU6502::InputOpcode(const Opcode6502& opcode, uint16_t& val)
+void CPU6502::InputOpcode(const Opcode6502& opcode, uint16_t val)
 {
     switch (opcode) {
     case Opcode6502::STA:

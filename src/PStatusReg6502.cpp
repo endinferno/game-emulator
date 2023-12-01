@@ -5,6 +5,11 @@ PStatusReg6502::PStatusReg6502()
     : pStatus_(0)
 {}
 
+void PStatusReg6502::reset()
+{
+    pStatus_ = 0;
+}
+
 bool PStatusReg6502::GetCarryFlag() const
 {
     return GetBit(CARRY_FLAG_OFFSET);

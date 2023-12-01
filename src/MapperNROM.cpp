@@ -16,7 +16,11 @@ uint8_t MapperNROM::read(const uint16_t& addr) const
         realAddr = addr - ROM_ADDR_OFFSET;
     }
     uint8_t readByte = nesReader_->GetRom()->at(realAddr);
-    DEBUG("{} read addr {:X} value {:X}", mapperName, addr, readByte);
+    DEBUG("{} read addr {:X} real addr {:X} value {:X}",
+          mapperName,
+          addr,
+          realAddr,
+          readByte);
     return readByte;
 }
 

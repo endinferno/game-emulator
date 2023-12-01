@@ -15,6 +15,7 @@ class Memory6502
 public:
     explicit Memory6502(std::shared_ptr<NesReader>& nesReader);
 
+    void reset();
     uint8_t read(const uint16_t& addr) const;
     void write(const uint16_t& addr, const uint8_t val);
     std::string ToString() const;
@@ -26,6 +27,9 @@ private:
     constexpr static uint16_t INTERNAL_RAM_SIZE = 0x0800;
     constexpr static uint16_t PPU_REG_RANGE = 0x4000;
     constexpr static uint16_t PPU_REG_SIZE = 0x0008;
+    constexpr static uint16_t APU_REG_RANGE = 0x4020;
+    constexpr static uint16_t APU_REG_SIZE = 0x0018;
+    constexpr static uint16_t PRG_RAM_RANGE = 0x8000;
     std::vector<uint8_t> internalRam_;
     PPU6502 ppuReg_;
     MapperNROM mapper_;

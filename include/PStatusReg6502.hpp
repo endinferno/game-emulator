@@ -11,6 +11,7 @@ class PStatusReg6502
 public:
     PStatusReg6502();
 
+    void reset();
     bool GetCarryFlag() const;
     void SetCarryFlag(bool flag);
 
