@@ -33,7 +33,7 @@ bool NesReader::Open(const std::string& romFilePath)
     auto buffer = ReadRom(romFile, 0, NES_HEADER_SIZE);
     nesHeader_->ReadNes(buffer);
 
-    uint8_t numRomBanks = nesHeader_->GetNumRamBanks();
+    uint8_t numRomBanks = nesHeader_->GetNumRomBanks();
     DEBUG("Rom Banks Count: {}", numRomBanks);
     size_t romOffset = NES_HEADER_SIZE;
     size_t romBankSize = numRomBanks * NES_ROM_BANK_SIZE;
