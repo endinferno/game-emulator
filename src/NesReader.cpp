@@ -24,9 +24,9 @@ bool NesReader::Open(const std::string& romFilePath)
         return false;
     }
 
-    size_t romLength = ReadLength(romFile);
-    DEBUG("Rom File Length: {}", romLength);
-    if (romLength < NES_HEADER_SIZE) {
+    romFileSize_ = ReadLength(romFile);
+    DEBUG("Rom File Length: {}", romFileSize_);
+    if (romFileSize_ < NES_HEADER_SIZE) {
         ERROR("Invalid NES file format");
         return false;
     }
@@ -37,7 +37,7 @@ bool NesReader::Open(const std::string& romFilePath)
     DEBUG("Rom Banks Count: {}", numRomBanks);
     size_t romOffset = NES_HEADER_SIZE;
     size_t romBankSize = numRomBanks * NES_ROM_BANK_SIZE;
-    if (romLength < NES_HEADER_SIZE + romBankSize) {
+    if (romFileSize_ < NES_HEADER_SIZE + romBankSize) {
         ERROR("Invalid NES file format");
         return false;
     }
@@ -47,7 +47,7 @@ bool NesReader::Open(const std::string& romFilePath)
     DEBUG("VRom Banks Count: {}", numVRomBanks);
     size_t vRomOffset = NES_HEADER_SIZE + romOffset;
     size_t vRomBankSize = numVRomBanks * NES_VROM_BANK_SIZE;
-    if (romLength < NES_HEADER_SIZE + romBankSize + vRomBankSize) {
+    if (romFileSize_ < NES_HEADER_SIZE + romBankSize + vRomBankSize) {
         ERROR("Invalid NES file format");
         return false;
     }
@@ -76,9 +76,10 @@ std::string NesReader::ToString() const
 {
     std::string fmtStr = "";
     fmtStr += fmt::format("NES Rom\n");
-    fmtStr += fmt::format("{:<16}: {}\n", "File Name", romFileName_);
-    fmtStr += fmt::format("{:<16}: {}\n", "Rom Length", nesRom_->size());
-    fmtStr += fmt::format("{:<16}: {}\n", "VRom Length", nesvRom_->size());
+    fmtStr += fmt::format("{:<13}: {}\n", "File Name", romFileName_);
+    fmtStr += fmt::format("{:<13}: {}\n", "File Size", romFileSize_);
+    fmtStr += fmt::format("{:<13}: {}\n", "Rom Length", nesRom_->size());
+    fmtStr += fmt::format("{:<13}: {}\n", "VRom Length", nesvRom_->size());
     fmtStr += nesHeader_->ToString();
     return fmtStr;
 }

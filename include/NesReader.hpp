@@ -35,6 +35,7 @@ private:
     constexpr static size_t NES_VROM_BANK_SIZE = 8 * 1024;
 
     std::string romFileName_;
+    size_t romFileSize_;
     std::shared_ptr<NesHeader> nesHeader_;
     std::shared_ptr<std::vector<uint8_t>> nesRom_;
     std::shared_ptr<std::vector<uint8_t>> nesvRom_;

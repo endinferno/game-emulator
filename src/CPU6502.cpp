@@ -150,9 +150,9 @@ std::string CPU6502::ToString() const
     std::string fmtStr;
     fmtStr += fmt::format("CPU Registers\n");
     fmtStr += fmt::format(
-        "{:<8}{:<8}{:<8}{:<8}{:<8}\n", "PC", "SP", "Accum", "X", "Y");
+        "{:<9}{:<9}{:<9}{:<9}{:<9}\n", "PC", "SP", "Accum", "X", "Y");
     fmtStr += fmt::format(
-        "{:<8X}{:<8X}{:<8X}{:<8X}{:<8X}\n", pc_, sp_, accumReg_, xReg_, yReg_);
+        "{:<9X}{:<9X}{:<9X}{:<9X}{:<9X}\n", pc_, sp_, accumReg_, xReg_, yReg_);
     fmtStr += pStatus_->ToString();
     fmtStr += fmt::format("\n");
     fmtStr += memory_->ToString();

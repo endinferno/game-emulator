@@ -73,8 +73,8 @@ std::string NesHeader::ToString() const
 {
     std::string fmtStr;
     fmtStr += fmt::format("NES Header\n");
-    fmtStr += fmt::format("{:<16}{:<16}{:<16}{:<16}{:<16}{:<16}"
-                          "{:<16}{:<16}{:<16}{:<16}\n",
+    fmtStr += fmt::format("{:<18}{:<18}{:<18}{:<18}{:<18}{:<18}"
+                          "{:<18}{:<18}{:<18}{:<18}\n",
                           "Rom Banks",
                           "VRom Banks",
                           "Mirror Type",
@@ -85,8 +85,8 @@ std::string NesHeader::ToString() const
                           "Ram Banks",
                           "TV System",
                           "Mapper Type");
-    fmtStr += fmt::format("{:<16X}{:<16X}{:<16X}{:<16X}{:<16X}{:<16X}"
-                          "{:<16X}{:<16X}{:<16X}{:<16X}",
+    fmtStr += fmt::format("{:<18X}{:<18X}{:<18X}{:<18X}{:<18X}{:<18X}"
+                          "{:<18X}{:<18X}{:<18X}{:<18X}",
                           GetNumRomBanks(),
                           GetNumVRomBanks(),
                           GetMirroringType(),
