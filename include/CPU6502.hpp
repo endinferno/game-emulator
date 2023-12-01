@@ -16,7 +16,7 @@ public:
     CPU6502(std::shared_ptr<NesReader>& nesReader);
 
     void Reset();
-    Opcode6502 DecodeOpcode(uint8_t opcode) const;
+    Opcode6502 ReadOpcode();
     void InputOpcode(const Opcode6502& opcode);
     void InputOpcode(const Opcode6502& opcode, uint8_t val);
     void InputOpcode(const Opcode6502& opcode, uint16_t val);
@@ -26,6 +26,8 @@ public:
     ~CPU6502() = default;
 
 private:
+    Opcode6502 DecodeOpcode(uint8_t opcode) const;
+    void IncreasePC(uint16_t offset);
     void Reset(uint16_t startAddr);
     void StoreDataAccumReg(uint8_t val);
     void StoreDataXReg(uint8_t val);

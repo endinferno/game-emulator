@@ -28,6 +28,13 @@ void CPU6502::Reset(uint16_t startAddr)
     memory_->Reset();
 }
 
+Opcode6502 CPU6502::ReadOpcode()
+{
+    uint8_t opcode = memory_->Read(pc_);
+    IncreasePC(1);
+    return DecodeOpcode(opcode);
+}
+
 Opcode6502 CPU6502::DecodeOpcode(uint8_t opcode) const
 {
     switch (opcode) {
@@ -143,6 +150,11 @@ void CPU6502::InputOpcode(const Opcode6502& opcode, uint16_t val)
         break;
     }
     }
+}
+
+void CPU6502::IncreasePC(uint16_t offset)
+{
+    pc_ += offset;
 }
 
 void CPU6502::StoreDataAccumReg(uint8_t val)

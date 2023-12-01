@@ -16,6 +16,7 @@ void RunEmulator(const std::string& emulatorType, const std::string& romPath)
         CPU6502 cpu(nesReader);
         INFO("{}", nesReader->ToString());
         INFO("{}", cpu.ToString());
+        PrintOpcode(cpu.ReadOpcode());
     }
     else if (emulatorType == "chip8") {
         Chip8App app("CHIP8 Emulator", 64, 32);
