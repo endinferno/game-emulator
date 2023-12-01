@@ -4,7 +4,7 @@
 
 bool NesHeader::ReadNes(std::shared_ptr<std::vector<uint8_t>>& nesBuffer)
 {
-    DEBUG("NES Buffer Size: {}", nesBuffer->size());
+    DEBUG("NES Buffer Size: {}\n", nesBuffer->size());
     numRomBanks_ = nesBuffer->at(4);
     numVRomBanks_ = nesBuffer->at(5);
     mirroringType_ = nesBuffer->at(6) & 0x1;

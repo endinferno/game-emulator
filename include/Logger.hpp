@@ -28,9 +28,9 @@ static std::string ClassFuncName(std::string&& name)
 #define __CLASS_FUNC__ ClassFuncName(std::string(__PRETTY_FUNCTION__))
 
 #if INFO_ENABLE
-#    define INFO(format, ...)                       \
-        do {                                        \
-            fmt::print(format "\n", ##__VA_ARGS__); \
+#    define INFO(format, ...)                  \
+        do {                                   \
+            fmt::print(format, ##__VA_ARGS__); \
         } while (0)
 #else
 #    define INFO(format, ...) \
@@ -39,12 +39,12 @@ static std::string ClassFuncName(std::string&& name)
 #endif
 
 #if DEBUG_ENABLE
-#    define DEBUG(format, ...)                                    \
-        do {                                                      \
-            fmt::print("FUNC: {:<25}, LINE: {:<4}: " format "\n", \
-                       __CLASS_FUNC__,                            \
-                       __LINE__,                                  \
-                       ##__VA_ARGS__);                            \
+#    define DEBUG(format, ...)                               \
+        do {                                                 \
+            fmt::print("FUNC: {:<25}, LINE: {:<4}: " format, \
+                       __CLASS_FUNC__,                       \
+                       __LINE__,                             \
+                       ##__VA_ARGS__);                       \
         } while (0)
 #else
 #    define DEBUG(format, ...) \
@@ -53,12 +53,12 @@ static std::string ClassFuncName(std::string&& name)
 #endif
 
 #if ERROR_ENABLE
-#    define ERROR(format, ...)                                    \
-        do {                                                      \
-            fmt::print("FUNC: {:<25}, LINE: {:<4}: " format "\n", \
-                       __CLASS_FUNC__,                            \
-                       __LINE__,                                  \
-                       ##__VA_ARGS__);                            \
+#    define ERROR(format, ...)                               \
+        do {                                                 \
+            fmt::print("FUNC: {:<25}, LINE: {:<4}: " format, \
+                       __CLASS_FUNC__,                       \
+                       __LINE__,                             \
+                       ##__VA_ARGS__);                       \
         } while (0)
 #else
 #    define ERROR(format, ...) \

@@ -15,7 +15,7 @@ void Memory6502::Reset()
 
 uint8_t Memory6502::Read(const uint16_t& addr) const
 {
-    DEBUG("Read addr: 0x{:0>4X}", addr);
+    DEBUG("Read addr: 0x{:0>4X}\n", addr);
     if (addr < INTERNAL_RAM_RANGE) {
         return internalRam_[addr & (INTERNAL_RAM_SIZE - 1)];
     }
@@ -36,7 +36,7 @@ uint8_t Memory6502::Read(const uint16_t& addr) const
 
 void Memory6502::Write(const uint16_t& addr, const uint8_t val)
 {
-    DEBUG("Write addr: 0x{:0>4X} val: 0x{:0>2X}", addr, val);
+    DEBUG("Write addr: 0x{:0>4X} val: 0x{:0>2X}\n", addr, val);
     if (addr < INTERNAL_RAM_RANGE) {
         internalRam_[addr & (INTERNAL_RAM_SIZE - 1)] = val;
     }

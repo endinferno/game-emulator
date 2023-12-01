@@ -15,40 +15,40 @@ NesReader::NesReader(const std::string& romFilePath)
 
 bool NesReader::Open(const std::string& romFilePath)
 {
-    DEBUG("Open Rom File: {}", romFilePath);
+    DEBUG("Open Rom File: {}\n", romFilePath);
     romFileName_ = romFilePath;
     std::ifstream romFile;
     romFile.open(romFilePath, std::ios::in | std::ios::binary);
     if (!romFile.is_open()) {
-        ERROR("Fail to open file {}", romFileName_);
+        ERROR("Fail to open file {}\n", romFileName_);
         return false;
     }
 
     romFileSize_ = ReadLength(romFile);
-    DEBUG("Rom File Length: {}", romFileSize_);
+    DEBUG("Rom File Length: {}\n", romFileSize_);
     if (romFileSize_ < NES_HEADER_SIZE) {
-        ERROR("Invalid NES file format");
+        ERROR("Invalid NES file format\n");
         return false;
     }
     auto buffer = ReadRom(romFile, 0, NES_HEADER_SIZE);
     nesHeader_->ReadNes(buffer);
 
     uint8_t numRomBanks = nesHeader_->GetNumRomBanks();
-    DEBUG("Rom Banks Count: {}", numRomBanks);
+    DEBUG("Rom Banks Count: {}\n", numRomBanks);
     size_t romOffset = NES_HEADER_SIZE;
     size_t romBankSize = numRomBanks * NES_ROM_BANK_SIZE;
     if (romFileSize_ < NES_HEADER_SIZE + romBankSize) {
-        ERROR("Invalid NES file format");
+        ERROR("Invalid NES file format\n");
         return false;
     }
     nesRom_ = ReadRom(romFile, romOffset, romBankSize);
 
     uint8_t numVRomBanks = nesHeader_->GetNumVRomBanks();
-    DEBUG("VRom Banks Count: {}", numVRomBanks);
+    DEBUG("VRom Banks Count: {}\n", numVRomBanks);
     size_t vRomOffset = NES_HEADER_SIZE + romOffset;
     size_t vRomBankSize = numVRomBanks * NES_VROM_BANK_SIZE;
     if (romFileSize_ < NES_HEADER_SIZE + romBankSize + vRomBankSize) {
-        ERROR("Invalid NES file format");
+        ERROR("Invalid NES file format\n");
         return false;
     }
     nesvRom_ = ReadRom(romFile, vRomOffset, vRomBankSize);
@@ -94,7 +94,7 @@ std::shared_ptr<std::vector<uint8_t>> NesReader::ReadRom(std::ifstream& romFile,
                                                          size_t offset,
                                                          size_t size) const
 {
-    DEBUG("Read file offset: {} size: {}", offset, size);
+    DEBUG("Read file offset: {} size: {}\n", offset, size);
     std::shared_ptr<std::vector<uint8_t>> readBuffer =
         std::make_shared<std::vector<uint8_t>>();
     readBuffer->resize(size);

@@ -5,17 +5,15 @@
 
 void PrintUsage()
 {
-    INFO("Usage: GameEmulator <type> <rom>");
+    INFO("Usage: GameEmulator <type> <rom>\n");
 }
 
 void RunEmulator(const std::string& emulatorType, const std::string& romPath)
 {
-    DEBUG("Emulator Type: \"{}\" Rom Path: \"{}\"", emulatorType, romPath);
+    DEBUG("Emulator Type: \"{}\" Rom Path: \"{}\"\n", emulatorType, romPath);
     if (emulatorType == "nes") {
         auto nesReader = std::make_shared<NesReader>(romPath);
         CPU6502 cpu(nesReader);
-        INFO("{}", nesReader->ToString());
-        INFO("{}", cpu.ToString());
         cpu.Run();
     }
     else if (emulatorType == "chip8") {
@@ -24,7 +22,7 @@ void RunEmulator(const std::string& emulatorType, const std::string& romPath)
         app.Run();
     }
     else {
-        ERROR("Unknown emulator type: {}", emulatorType);
+        ERROR("Unknown emulator type: {}\n", emulatorType);
     }
 }
 

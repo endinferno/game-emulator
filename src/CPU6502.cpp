@@ -20,7 +20,7 @@ void CPU6502::Reset()
 
 void CPU6502::Reset(uint16_t startAddr)
 {
-    DEBUG("Reset CPU at address: {:X}", startAddr);
+    DEBUG("Reset CPU at address: {:X}\n", startAddr);
     accumReg_ = 0;
     xReg_ = 0;
     yReg_ = 0;
@@ -64,7 +64,7 @@ Opcode6502 CPU6502::DecodeOpcode(uint8_t opcode) const
     case 0xD8: return Opcode6502::CLD;
     default:
     {
-        DEBUG("Invalid opcode: {:X}", opcode);
+        DEBUG("Invalid opcode: {:X}\n", opcode);
         return Opcode6502::INVALID;
     }
     }
@@ -114,7 +114,7 @@ void CPU6502::InputOpcode(const Opcode6502& opcode)
     }
     case Opcode6502::INVALID:
     {
-        DEBUG("Invalid opcode");
+        DEBUG("Invalid opcode\n");
         assert(false);
         break;
     }
@@ -149,7 +149,7 @@ void CPU6502::InputOpcode(const Opcode6502& opcode, uint8_t val)
     }
     case Opcode6502::INVALID:
     {
-        DEBUG("Invalid opcode");
+        DEBUG("Invalid opcode\n");
         assert(false);
         break;
     }
@@ -175,7 +175,7 @@ void CPU6502::InputOpcode(const Opcode6502& opcode, uint16_t val)
     }
     case Opcode6502::INVALID:
     {
-        DEBUG("Invalid opcode");
+        DEBUG("Invalid opcode\n");
         assert(false);
         break;
     }
