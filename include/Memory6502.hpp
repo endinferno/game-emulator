@@ -5,7 +5,7 @@
 #include <cstdint>
 
 #include "MapperNROM.hpp"
-#include "PPUReg6502.hpp"
+#include "PPU6502.hpp"
 
 using std::uint8_t;
 using std::uint16_t;
@@ -27,6 +27,6 @@ private:
     constexpr static uint16_t PPU_REG_RANGE = 0x4000;
     constexpr static uint16_t PPU_REG_SIZE = 0x0008;
     std::vector<uint8_t> internalRam_;
-    PPUReg6502 ppuReg_;
+    PPU6502 ppuReg_;
     MapperNROM mapper_;
 };

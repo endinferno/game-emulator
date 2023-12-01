@@ -6,17 +6,17 @@
 
 using std::uint8_t;
 
-class PPUReg6502
+class PPU6502
 {
 public:
-    PPUReg6502();
+    PPU6502();
 
     uint8_t read(const uint16_t& addr) const;
     void write(const uint16_t& addr, const uint8_t val);
 
     std::string ToString() const;
 
-    ~PPUReg6502() = default;
+    ~PPU6502() = default;
 
 private:
     constexpr static uint16_t PPU_CTRL_REG_ADDR = 0x2000;

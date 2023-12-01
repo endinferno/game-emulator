@@ -1,9 +1,9 @@
-#include "PPUReg6502.hpp"
+#include "PPU6502.hpp"
 #include "fmt/core.h"
 
-PPUReg6502::PPUReg6502() {}
+PPU6502::PPU6502() {}
 
-uint8_t PPUReg6502::read(const uint16_t& addr) const
+uint8_t PPU6502::read(const uint16_t& addr) const
 {
     switch (addr) {
     case PPU_STATUS_REG_ADDR:
@@ -18,7 +18,7 @@ uint8_t PPUReg6502::read(const uint16_t& addr) const
     return 0;
 }
 
-void PPUReg6502::write(const uint16_t& addr, const uint8_t val)
+void PPU6502::write(const uint16_t& addr, const uint8_t val)
 {
     switch (addr) {
     case PPU_CTRL_REG_ADDR:
@@ -38,7 +38,7 @@ void PPUReg6502::write(const uint16_t& addr, const uint8_t val)
     return;
 }
 
-std::string PPUReg6502::ToString() const
+std::string PPU6502::ToString() const
 {
     std::string fmtStr;
     fmtStr += fmt::format("PPU Registers\n");
