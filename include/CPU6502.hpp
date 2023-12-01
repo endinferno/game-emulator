@@ -29,11 +29,11 @@ private:
     void StoreDataYReg(uint8_t val);
 
 private:
-    uint16_t pc_;
     std::shared_ptr<PStatusReg6502> pStatus_;
     std::shared_ptr<Memory6502> memory_;
-    uint8_t sp_;
-    uint8_t accumReg_;
-    uint8_t xReg_;
-    uint8_t yReg_;
+    uint16_t pc_ = 0;
+    uint8_t sp_ = 0;
+    uint8_t accumReg_ = 0;
+    uint8_t xReg_ = 0;
+    uint8_t yReg_ = 0;
 };
