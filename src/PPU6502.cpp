@@ -42,8 +42,8 @@ std::string PPU6502::ToString() const
 {
     std::string fmtStr;
     fmtStr += fmt::format("PPU Registers\n");
-    fmtStr += fmt::format("{:<8} {:<8} {:<8}\n", "Ctrl", "Mask", "Status");
-    fmtStr += fmt::format(
-        "{:0>8B} {:0>8B} {:0>8B}\n", ppuCtrl_, ppuMask_, ppuStatus_);
+    fmtStr += fmt::format("{:<8}{:<8}{:<8}\n", "Ctrl", "Mask", "Status");
+    fmtStr +=
+        fmt::format("{:0>8B}{:0>8B}{:0>8B}\n", ppuCtrl_, ppuMask_, ppuStatus_);
     return fmtStr;
 }
