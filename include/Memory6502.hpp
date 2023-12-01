@@ -15,9 +15,9 @@ class Memory6502
 public:
     explicit Memory6502(std::shared_ptr<NesReader>& nesReader);
 
-    void reset();
-    uint8_t read(const uint16_t& addr) const;
-    void write(const uint16_t& addr, const uint8_t val);
+    void Reset();
+    uint8_t Read(const uint16_t& addr) const;
+    void Write(const uint16_t& addr, const uint8_t val);
     std::string ToString() const;
 
     ~Memory6502() = default;

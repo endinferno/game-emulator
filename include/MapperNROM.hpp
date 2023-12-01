@@ -13,8 +13,8 @@ class MapperNROM
 public:
     explicit MapperNROM(std::shared_ptr<NesReader>& nesReader);
 
-    uint8_t read(const uint16_t& addr) const;
-    void write(const uint16_t& addr, const uint8_t val);
+    uint8_t Read(const uint16_t& addr) const;
+    void Write(const uint16_t& addr, const uint8_t val);
 
     ~MapperNROM() = default;
 

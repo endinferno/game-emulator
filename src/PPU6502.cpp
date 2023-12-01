@@ -3,14 +3,14 @@
 
 PPU6502::PPU6502() {}
 
-void PPU6502::reset()
+void PPU6502::Reset()
 {
     ppuCtrl_ = 0;
     ppuMask_ = 0;
     ppuStatus_ = 0;
 }
 
-uint8_t PPU6502::read(const uint16_t& addr) const
+uint8_t PPU6502::Read(const uint16_t& addr) const
 {
     switch (addr) {
     case PPU_STATUS_REG_ADDR:
@@ -25,7 +25,7 @@ uint8_t PPU6502::read(const uint16_t& addr) const
     return 0;
 }
 
-void PPU6502::write(const uint16_t& addr, const uint8_t val)
+void PPU6502::Write(const uint16_t& addr, const uint8_t val)
 {
     switch (addr) {
     case PPU_CTRL_REG_ADDR:

@@ -5,7 +5,7 @@ PStatusReg6502::PStatusReg6502()
     : pStatus_(0)
 {}
 
-void PStatusReg6502::reset()
+void PStatusReg6502::Reset()
 {
     pStatus_ = 0;
 }

@@ -6,17 +6,17 @@ CPU6502::CPU6502(std::shared_ptr<NesReader>& nesReader)
     : pStatus_(std::make_shared<PStatusReg6502>())
     , memory_(std::make_shared<Memory6502>(nesReader))
 {
-    reset();
+    Reset();
 }
 
-void CPU6502::reset()
+void CPU6502::Reset()
 {
-    uint16_t lowerAddr = memory_->read(RESET_VECTOR_ADDR);
-    uint16_t upperAddr = memory_->read(RESET_VECTOR_ADDR + 1);
-    reset(lowerAddr | upperAddr << 8);
+    uint16_t lowerAddr = memory_->Read(RESET_VECTOR_ADDR);
+    uint16_t upperAddr = memory_->Read(RESET_VECTOR_ADDR + 1);
+    Reset(lowerAddr | upperAddr << 8);
 }
 
-void CPU6502::reset(uint16_t startAddr)
+void CPU6502::Reset(uint16_t startAddr)
 {
     DEBUG("Reset CPU at address: {:X}", startAddr);
     accumReg_ = 0;
@@ -24,8 +24,8 @@ void CPU6502::reset(uint16_t startAddr)
     yReg_ = 0;
     sp_ = 0xFD;
     pc_ = startAddr;
-    pStatus_->reset();
-    memory_->reset();
+    pStatus_->Reset();
+    memory_->Reset();
 }
 
 Opcode6502 CPU6502::DecodeOpcode(uint8_t opcode) const
@@ -68,7 +68,7 @@ void CPU6502::InputOpcode(const Opcode6502& opcode)
     case Opcode6502::BPL:
     {
         if (!pStatus_->GetNegativeFlag()) {
-            uint8_t pcOffset = memory_->read(pc_);
+            uint8_t pcOffset = memory_->Read(pc_);
             pc_++;
             pc_ = static_cast<uint16_t>(pc_ + pcOffset);
         }
@@ -80,7 +80,7 @@ void CPU6502::InputOpcode(const Opcode6502& opcode)
     case Opcode6502::BCS:
     {
         if (pStatus_->GetCarryFlag()) {
-            uint8_t pcOffset = memory_->read(pc_);
+            uint8_t pcOffset = memory_->Read(pc_);
             pc_++;
             pc_ = static_cast<uint16_t>(pc_ + pcOffset);
         }
@@ -130,12 +130,12 @@ void CPU6502::InputOpcode(const Opcode6502& opcode, uint16_t val)
     switch (opcode) {
     case Opcode6502::STA:
     {
-        memory_->write(val, accumReg_);
+        memory_->Write(val, accumReg_);
         break;
     }
     case Opcode6502::LDA:
     {
-        StoreDataAccumReg(memory_->read(val));
+        StoreDataAccumReg(memory_->Read(val));
         break;
     }
     default:

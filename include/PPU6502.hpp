@@ -11,9 +11,9 @@ class PPU6502
 public:
     PPU6502();
 
-    void reset();
-    uint8_t read(const uint16_t& addr) const;
-    void write(const uint16_t& addr, const uint8_t val);
+    void Reset();
+    uint8_t Read(const uint16_t& addr) const;
+    void Write(const uint16_t& addr, const uint8_t val);
 
     std::string ToString() const;
 

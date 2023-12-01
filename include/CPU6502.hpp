@@ -15,7 +15,7 @@ class CPU6502
 public:
     CPU6502(std::shared_ptr<NesReader>& nesReader);
 
-    void reset();
+    void Reset();
     Opcode6502 DecodeOpcode(uint8_t opcode) const;
     void InputOpcode(const Opcode6502& opcode);
     void InputOpcode(const Opcode6502& opcode, uint8_t val);
@@ -26,7 +26,7 @@ public:
     ~CPU6502() = default;
 
 private:
-    void reset(uint16_t startAddr);
+    void Reset(uint16_t startAddr);
     void StoreDataAccumReg(uint8_t val);
     void StoreDataXReg(uint8_t val);
     void StoreDataYReg(uint8_t val);
