@@ -1,23 +1,20 @@
 #include "NesHeader.hpp"
 #include "Logger.hpp"
+#include "fmt/core.h"
 
-bool NesHeader::ReadNes(std::shared_ptr<RomReader>& romReader)
+bool NesHeader::ReadNes(std::shared_ptr<std::vector<uint8_t>>& nesBuffer)
 {
-    auto buffer = romReader->GetRomContent();
-    if (buffer->size() < 16) {
-        ERROR("Invalid rom header");
-        return false;
-    }
-    numRomBanks_ = buffer->at(4);
-    numVRomBanks_ = buffer->at(5);
-    mirroringType_ = buffer->at(6) & 0x1;
-    batteryBackedRam_ = (buffer->at(6) & 0x2) >> 1;
-    trainer_ = (buffer->at(6) & 0x4) >> 2;
-    fourScreenVram_ = (buffer->at(6) & 0x8) >> 3;
-    VSUnisystem_ = buffer->at(7) & 0x1;
-    numRamBanks_ = buffer->at(8);
-    TVSystem_ = buffer->at(9) & 0x1;
-    mapperType_ = (buffer->at(7) & 0xF0) | (buffer->at(6) >> 4);
+    DEBUG("NES Buffer Size: {}", nesBuffer->size());
+    numRomBanks_ = nesBuffer->at(4);
+    numVRomBanks_ = nesBuffer->at(5);
+    mirroringType_ = nesBuffer->at(6) & 0x1;
+    batteryBackedRam_ = (nesBuffer->at(6) & 0x2) >> 1;
+    trainer_ = (nesBuffer->at(6) & 0x4) >> 2;
+    fourScreenvRam_ = (nesBuffer->at(6) & 0x8) >> 3;
+    VSUnisystem_ = nesBuffer->at(7) & 0x1;
+    numRamBanks_ = nesBuffer->at(8);
+    TVSystem_ = nesBuffer->at(9) & 0x1;
+    mapperType_ = (nesBuffer->at(7) & 0xF0) | (nesBuffer->at(6) >> 4);
 
     return true;
 }
@@ -47,9 +44,9 @@ uint8_t NesHeader::GetTrainer() const
     return trainer_;
 }
 
-uint8_t NesHeader::GetFourScreenVram() const
+uint8_t NesHeader::GetFourScreenvRam() const
 {
-    return fourScreenVram_;
+    return fourScreenvRam_;
 }
 
 uint8_t NesHeader::GetVSUnisystem() const
@@ -70,4 +67,23 @@ uint8_t NesHeader::GetTVSystem() const
 uint8_t NesHeader::GetMapperType() const
 {
     return mapperType_;
+}
+
+std::string NesHeader::ToString() const
+{
+    std::string fmtStr;
+    fmtStr += fmt::format("{:<15} : {}\n", "Num Rom Banks", numRomBanks_);
+    fmtStr += fmt::format("{:<15} : {}\n", "Num VRom Banks", numVRomBanks_);
+    fmtStr += fmt::format("{:<15} : {}\n", "Mirroring Type", mirroringType_);
+    fmtStr +=
+        fmt::format("{:<15} : {}\n", "Battery Backed Ram", batteryBackedRam_);
+    fmtStr += fmt::format("{:<15} : {}\n", "Trainer", trainer_);
+    fmtStr += fmt::format("{:<15} : {}\n", "Four Screen vRam", fourScreenvRam_);
+    fmtStr += fmt::format("{:<15} : {}\n", "VS Unisystem", VSUnisystem_);
+    fmtStr += fmt::format("{:<15} : {}\n", "Num Ram Banks", numRamBanks_);
+    fmtStr += fmt::format("{:<15} : {}\n", "TV System", TVSystem_);
+    fmtStr += fmt::format("{:<15} : {}\n", "Mapper Type", mapperType_);
+
+
+    return fmtStr;
 }
