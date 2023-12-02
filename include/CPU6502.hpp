@@ -19,8 +19,6 @@ public:
     void Run();
     Opcode6502 ReadOpcode();
     void InputOpcode(const Opcode6502& opcode);
-    void InputOpcode(const Opcode6502& opcode, uint8_t val);
-    void InputOpcode(const Opcode6502& opcode, uint16_t val);
 
     std::string ToString() const;
 
