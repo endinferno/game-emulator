@@ -36,8 +36,7 @@ void Memory6502::Write(const uint16_t& addr, const uint8_t val)
     if (addr < INTERNAL_RAM_RANGE) {
         DEBUG("Write to internal RAM\n");
         internalRam_[addr & (INTERNAL_RAM_SIZE - 1)] = val;
-    }
-    else if (addr < PPU_REG_RANGE) {
+    } else if (addr < PPU_REG_RANGE) {
         DEBUG("Write to PPU Register\n");
         ppuReg_.Write(addr, val);
     }
@@ -49,18 +48,14 @@ uint8_t Memory6502::Read(const uint16_t& addr) const
     if (addr < INTERNAL_RAM_RANGE) {
         DEBUG("Read from internal RAM\n");
         return internalRam_[addr & (INTERNAL_RAM_SIZE - 1)];
-    }
-    else if (addr < PPU_REG_RANGE) {
+    } else if (addr < PPU_REG_RANGE) {
         DEBUG("Read from PPU Register\n");
         return ppuReg_.Read(addr);
-    }
-    else if (addr < APU_REG_RANGE) {
+    } else if (addr < APU_REG_RANGE) {
         // TODO: Implement APU
-    }
-    else if (addr < PRG_RAM_RANGE) {
+    } else if (addr < PRG_RAM_RANGE) {
         // TODO: Implement PRG RAM
-    }
-    else {
+    } else {
         return mapper_.Read(addr);
     }
     return 0;

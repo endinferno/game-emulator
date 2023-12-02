@@ -105,7 +105,7 @@ BraceWrapping:
   # catch之前
   BeforeCatch: true
   # else之前
-  BeforeElse: true
+  BeforeElse: false
   # 缩进大括号(整个大括号框起来的部分都缩进)
   IndentBraces: false
   # 空函数的大括号是否可以在一行

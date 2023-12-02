@@ -11,8 +11,7 @@ uint8_t MapperNROM::Read(const uint16_t& addr) const
     uint16_t realAddr = 0;
     if (nesReader_->GetHeader()->GetNumRomBanks() == 1) {
         realAddr = (addr - ROM_ADDR_OFFSET) % (ROM_SIZE - 1);
-    }
-    else {
+    } else {
         realAddr = addr - ROM_ADDR_OFFSET;
     }
     uint8_t readByte = nesReader_->GetRom()->at(realAddr);

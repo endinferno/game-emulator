@@ -136,8 +136,7 @@ void Chip8Emulator::DecodeOpcode0(const Chip8Opcode& opcode)
         std::for_each(screen_.begin(), screen_.end(), [](auto& row) {
             std::fill(row.begin(), row.end(), 0);
         });
-    }
-    else if (opcode.IsRetOpcode()) {
+    } else if (opcode.IsRetOpcode()) {
         pc_ = PopStack();
     }
 }

@@ -115,8 +115,7 @@ void CPU6502::InputOpcode(const Opcode6502& opcode)
             int8_t pcOffset = static_cast<int8_t>(memory_->ReadByte(pc_));
             IncreasePC(1);
             pc_ = static_cast<uint16_t>(pc_ + pcOffset);
-        }
-        else {
+        } else {
             IncreasePC(1);
         }
         break;

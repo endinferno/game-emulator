@@ -15,13 +15,11 @@ void RunEmulator(const std::string& emulatorType, const std::string& romPath)
         auto nesReader = std::make_shared<NesReader>(romPath);
         CPU6502 cpu(nesReader);
         cpu.Run();
-    }
-    else if (emulatorType == "chip8") {
+    } else if (emulatorType == "chip8") {
         Chip8App app("CHIP8 Emulator", 64, 32);
         app.LoadRom(romPath);
         app.Run();
-    }
-    else {
+    } else {
         ERROR("Unknown emulator type: {}\n", emulatorType);
     }
 }
@@ -30,8 +28,7 @@ int main(int argc, char* argv[])
 {
     if (argc == 3) {
         RunEmulator(argv[1], argv[2]);
-    }
-    else {
+    } else {
         PrintUsage();
     }
     return 0;
