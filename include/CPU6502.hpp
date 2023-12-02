@@ -17,7 +17,6 @@ public:
 
     void Reset();
     void Run();
-    void InputOpcode(const Opcode6502& opcode);
 
     std::string ToString() const;
 
@@ -26,6 +25,7 @@ public:
 private:
     Opcode6502 ReadOpcode();
     Opcode6502 DecodeOpcode(uint8_t opcode) const;
+    void InputOpcode(const Opcode6502& opcode);
     void IncreasePC(uint16_t offset);
     void Reset(uint16_t startAddr);
     void StoreAccumRegMemory(uint16_t addr);
