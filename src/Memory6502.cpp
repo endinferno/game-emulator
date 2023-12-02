@@ -36,6 +36,13 @@ uint8_t Memory6502::Read(const uint16_t& addr) const
     return 0;
 }
 
+uint8_t Memory6502::ReadByte(const uint16_t& addr) const
+{
+    uint8_t readByte = Read(addr);
+    DEBUG("ReadByte addr: 0x{:0>4X} value: 0x{:0>2X}\n", addr, readByte);
+    return readByte;
+}
+
 uint16_t Memory6502::ReadWord(const uint16_t& addr) const
 {
     uint16_t lowerByte = Read(addr);

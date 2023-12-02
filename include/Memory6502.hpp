@@ -17,6 +17,7 @@ public:
 
     void Reset();
     uint8_t Read(const uint16_t& addr) const;
+    uint8_t ReadByte(const uint16_t& addr) const;
     uint16_t ReadWord(const uint16_t& addr) const;
     void Write(const uint16_t& addr, const uint8_t val);
     std::string ToString() const;
