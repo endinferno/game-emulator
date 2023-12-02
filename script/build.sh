@@ -28,11 +28,27 @@ CMakePhase() {
 	popd > /dev/null
 }
 
+GetSystemCore() {
+	osName=$(uname -s)
+	osCore=0
+	if [[ $osName == "Darwin" ]]
+	then
+		osCore=$(sysctl -n hw.ncpu)
+	elif [[ $osName == "Linux" ]]
+	then
+		osCore=$(cat /proc/cpuinfo | grep "processor" | wc -l)
+	else
+		osCore=1
+	fi
+
+	return $osCore
+}
+
 MakePhase() {
 	PrintWithColor "\e[32m" "Make Phase"
 	echo ""
 	pushd $BUILD_DIR/$BUILD_PATH > /dev/null
-	make -j12
+	make -j $1
 	popd > /dev/null
 }
 
@@ -61,4 +77,5 @@ BUILD_TYPE=${BUILD_TYPE^}
 PrintBuildType
 CloneSubmodule
 CMakePhase
-MakePhase
+GetSystemCore
+MakePhase $?
