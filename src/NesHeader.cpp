@@ -71,32 +71,29 @@ uint8_t NesHeader::GetMapperType() const
 
 std::string NesHeader::ToString() const
 {
-    std::string fmtStr;
-    fmtStr += fmt::format("NES Header\n");
-    fmtStr += fmt::format("{:<18}{:<18}{:<18}{:<18}{:<18}{:<18}"
-                          "{:<18}{:<18}{:<18}{:<18}\n",
-                          "Rom Banks",
-                          "VRom Banks",
-                          "Mirror Type",
-                          "Battery Ram",
-                          "Trainer",
-                          "Four Screen",
-                          "VS Unisystem",
-                          "Ram Banks",
-                          "TV System",
-                          "Mapper Type");
-    fmtStr += fmt::format("{:<18X}{:<18X}{:<18X}{:<18X}{:<18X}{:<18X}"
-                          "{:<18X}{:<18X}{:<18X}{:<18X}",
-                          GetNumRomBanks(),
-                          GetNumVRomBanks(),
-                          GetMirroringType(),
-                          GetBatteryBackedRam(),
-                          GetTrainer(),
-                          GetFourScreenvRam(),
-                          GetVSUnisystem(),
-                          GetNumRamBanks(),
-                          GetTVSystem(),
-                          GetMapperType());
-
-    return fmtStr;
+    return fmt::format("NES Header\n"
+                       "{:<18}{:<18}{:<18}{:<18}{:<18}{:<18}"
+                       "{:<18}{:<18}{:<18}{:<18}\n"
+                       "{:<18X}{:<18X}{:<18X}{:<18X}{:<18X}{:<18X}"
+                       "{:<18X}{:<18X}{:<18X}{:<18X}",
+                       "Rom Banks",
+                       "VRom Banks",
+                       "Mirror Type",
+                       "Battery Ram",
+                       "Trainer",
+                       "Four Screen",
+                       "VS Unisystem",
+                       "Ram Banks",
+                       "TV System",
+                       "Mapper Type",
+                       GetNumRomBanks(),
+                       GetNumVRomBanks(),
+                       GetMirroringType(),
+                       GetBatteryBackedRam(),
+                       GetTrainer(),
+                       GetFourScreenvRam(),
+                       GetVSUnisystem(),
+                       GetNumRamBanks(),
+                       GetTVSystem(),
+                       GetMapperType());
 }

@@ -58,10 +58,13 @@ void PPU6502::Write(const uint16_t& addr, const uint8_t val)
 
 std::string PPU6502::ToString() const
 {
-    std::string fmtStr;
-    fmtStr += fmt::format("PPU Registers\n");
-    fmtStr += fmt::format("{:<9}{:<9}{:<9}\n", "Ctrl", "Mask", "Status");
-    fmtStr += fmt::format(
-        "{:0>8B} {:0>8B} {:0>8B}\n", ppuCtrl_, ppuMask_, ppuStatus_);
-    return fmtStr;
+    return fmt::format("PPU Registers\n"
+                       "{:<9}{:<9}{:<9}\n"
+                       "{:0>8B} {:0>8B} {:0>8B}\n",
+                       "Ctrl",
+                       "Mask",
+                       "Status",
+                       ppuCtrl_,
+                       ppuMask_,
+                       ppuStatus_);
 }

@@ -82,23 +82,21 @@ void PStatusReg6502::SetNegativeFlag(bool flag)
 
 std::string PStatusReg6502::ToString() const
 {
-    std::string fmtStr;
-    fmtStr += fmt::format("Processor Status Register\n");
-    fmtStr += fmt::format("{:<9}{:<9}{:<9}{:<9}{:<9}{:<9}{:<9}\n",
-                          "Carry",
-                          "Zero",
-                          "IntDis",
-                          "DemMode",
-                          "Break",
-                          "Overflow",
-                          "Negative");
-    fmtStr += fmt::format("{:<9}{:<9}{:<9}{:<9}{:<9}{:<9}{:<9}",
-                          GetCarryFlag(),
-                          GetZeroFlag(),
-                          GetInterruptDisableFlag(),
-                          GetDecimalModeFlag(),
-                          GetBreakFlag(),
-                          GetOverflowFlag(),
-                          GetNegativeFlag());
-    return fmtStr;
+    return fmt::format("Processor Status Register\n"
+                       "{:<9}{:<9}{:<9}{:<9}{:<9}{:<9}{:<9}\n"
+                       "{:<9}{:<9}{:<9}{:<9}{:<9}{:<9}{:<9}",
+                       "Carry",
+                       "Zero",
+                       "IntDis",
+                       "DemMode",
+                       "Break",
+                       "Overflow",
+                       "Negative",
+                       GetCarryFlag(),
+                       GetZeroFlag(),
+                       GetInterruptDisableFlag(),
+                       GetDecimalModeFlag(),
+                       GetBreakFlag(),
+                       GetOverflowFlag(),
+                       GetNegativeFlag());
 }

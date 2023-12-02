@@ -155,17 +155,21 @@ void CPU6502::StoreAccumRegMemory(uint16_t addr)
 std::string CPU6502::ToString() const
 {
     std::string fmtStr;
-    fmtStr += fmt::format("CPU Registers\n");
-    fmtStr += fmt::format(
-        "{:<9}{:<9}{:<9}{:<9}{:<9}\n", "PC", "SP", "Accum", "X", "Y");
-    fmtStr += fmt::format("{:<9X}{:<9X}{:<9X}{:<9X}{:<9X}\n",
-                          pc_,
-                          sp_,
-                          (uint8_t)accumReg_,
-                          (uint8_t)xReg_,
-                          (uint8_t)yReg_);
-    fmtStr += pStatus_->ToString();
-    fmtStr += fmt::format("\n");
-    fmtStr += memory_->ToString();
-    return fmtStr;
+    return fmt::format("CPU Registers\n"
+                       "{:<9}{:<9}{:<9}{:<9}{:<9}\n"
+                       "{:<9X}{:<9X}{:<9X}{:<9X}{:<9X}\n"
+                       "{}\n"
+                       "{}\n",
+                       "PC",
+                       "SP",
+                       "Accum",
+                       "X",
+                       "Y",
+                       pc_,
+                       sp_,
+                       (uint8_t)accumReg_,
+                       (uint8_t)xReg_,
+                       (uint8_t)yReg_,
+                       pStatus_->ToString(),
+                       memory_->ToString());
 }
