@@ -23,7 +23,7 @@ void CPU6502::Reset(uint16_t startAddr)
     accumReg_ = 0;
     xReg_ = 0;
     yReg_ = 0;
-    sp_ = 0xFD;
+    sp_ = 0xFF;
     pc_ = startAddr;
     pStatus_->Reset();
     memory_->Reset();
