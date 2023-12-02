@@ -17,7 +17,6 @@ public:
 
     void Reset();
     void Run();
-    Opcode6502 ReadOpcode();
     void InputOpcode(const Opcode6502& opcode);
 
     std::string ToString() const;
@@ -25,6 +24,7 @@ public:
     ~CPU6502() = default;
 
 private:
+    Opcode6502 ReadOpcode();
     Opcode6502 DecodeOpcode(uint8_t opcode) const;
     void IncreasePC(uint16_t offset);
     void Reset(uint16_t startAddr);
