@@ -2,6 +2,7 @@
 
 #include <cstdint>
 
+#include "CPU6502Register.hpp"
 #include "Memory6502.hpp"
 #include "NesOpcode.hpp"
 #include "NesReader.hpp"
@@ -39,7 +40,7 @@ private:
     std::shared_ptr<Memory6502> memory_;
     uint16_t pc_ = 0;
     uint8_t sp_ = 0;
-    uint8_t accumReg_ = 0;
-    uint8_t xReg_ = 0;
-    uint8_t yReg_ = 0;
+    CPU6502Register accumReg_;
+    CPU6502Register xReg_;
+    CPU6502Register yReg_;
 };

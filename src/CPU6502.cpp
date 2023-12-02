@@ -7,6 +7,9 @@
 CPU6502::CPU6502(std::shared_ptr<NesReader>& nesReader)
     : pStatus_(std::make_shared<PStatusReg6502>())
     , memory_(std::make_shared<Memory6502>(nesReader))
+    , accumReg_(pStatus_, 0)
+    , xReg_(pStatus_, 0)
+    , yReg_(pStatus_, 0)
 {
     Reset();
 }
@@ -84,7 +87,8 @@ void CPU6502::InputOpcode(const Opcode6502& opcode)
     }
     case Opcode6502::LDAImmediate:
     {
-        LoadDataAccumReg(memory_->ReadByte(pc_));
+        uint8_t val = memory_->ReadByte(pc_);
+        accumReg_ = val;
         IncreasePC(1);
         break;
     }
@@ -92,14 +96,14 @@ void CPU6502::InputOpcode(const Opcode6502& opcode)
     {
         uint16_t addr = memory_->ReadWord(pc_);
         uint8_t val = memory_->ReadByte(addr);
-        LoadDataAccumReg(val);
+        accumReg_ = val;
         IncreasePC(2);
         break;
     }
     case Opcode6502::LDXImmediate:
     {
         uint8_t val = memory_->ReadByte(pc_);
-        LoadDataXReg(val);
+        xReg_ = val;
         IncreasePC(1);
         break;
     }
@@ -143,25 +147,9 @@ void CPU6502::IncreasePC(uint16_t offset)
 void CPU6502::StoreAccumRegMemory(uint16_t addr)
 {
     DEBUG("Store Accumulator Register 0x{:0>2X} in memory: 0x{:0>4X}\n",
-          accumReg_,
+          (uint8_t)accumReg_,
           addr);
     memory_->Write(addr, accumReg_);
-}
-
-void CPU6502::LoadDataXReg(uint8_t val)
-{
-    DEBUG("Load data to X Register: 0x{:0>2X}\n", val);
-    pStatus_->SetZeroFlag(val == 0);
-    pStatus_->SetNegativeFlag((val & 0x80) != 0);
-    xReg_ = val;
-}
-
-void CPU6502::LoadDataAccumReg(uint8_t val)
-{
-    DEBUG("Load data to Accumulator Register: 0x{:0>2X}\n", val);
-    pStatus_->SetZeroFlag(val == 0);
-    pStatus_->SetNegativeFlag((val & 0x80) != 0);
-    accumReg_ = val;
 }
 
 std::string CPU6502::ToString() const
@@ -170,8 +158,12 @@ std::string CPU6502::ToString() const
     fmtStr += fmt::format("CPU Registers\n");
     fmtStr += fmt::format(
         "{:<9}{:<9}{:<9}{:<9}{:<9}\n", "PC", "SP", "Accum", "X", "Y");
-    fmtStr += fmt::format(
-        "{:<9X}{:<9X}{:<9X}{:<9X}{:<9X}\n", pc_, sp_, accumReg_, xReg_, yReg_);
+    fmtStr += fmt::format("{:<9X}{:<9X}{:<9X}{:<9X}{:<9X}\n",
+                          pc_,
+                          sp_,
+                          (uint8_t)accumReg_,
+                          (uint8_t)xReg_,
+                          (uint8_t)yReg_);
     fmtStr += pStatus_->ToString();
     fmtStr += fmt::format("\n");
     fmtStr += memory_->ToString();
