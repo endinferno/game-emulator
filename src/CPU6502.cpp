@@ -13,9 +13,8 @@ CPU6502::CPU6502(std::shared_ptr<NesReader>& nesReader)
 
 void CPU6502::Reset()
 {
-    uint16_t lowerAddr = memory_->Read(RESET_VECTOR_ADDR);
-    uint16_t upperAddr = memory_->Read(RESET_VECTOR_ADDR + 1);
-    Reset(lowerAddr | upperAddr << 8);
+    uint16_t startAddr = memory_->ReadWord(RESET_VECTOR_ADDR);
+    Reset(startAddr);
 }
 
 void CPU6502::Reset(uint16_t startAddr)
@@ -41,7 +40,7 @@ void CPU6502::Run()
 
 Opcode6502 CPU6502::ReadOpcode()
 {
-    uint8_t opcodeVal = memory_->Read(pc_);
+    uint8_t opcodeVal = memory_->ReadByte(pc_);
     IncreasePC(1);
     return DecodeOpcode(opcodeVal);
 }
@@ -85,20 +84,22 @@ void CPU6502::InputOpcode(const Opcode6502& opcode)
     }
     case Opcode6502::LDAImmediate:
     {
-        LoadDataAccumReg(memory_->Read(pc_));
+        LoadDataAccumReg(memory_->ReadByte(pc_));
         IncreasePC(1);
         break;
     }
     case Opcode6502::LDAAbsolute:
     {
         uint16_t addr = memory_->ReadWord(pc_);
-        LoadDataAccumReg(memory_->Read(addr));
+        uint8_t val = memory_->ReadByte(addr);
+        LoadDataAccumReg(val);
         IncreasePC(2);
         break;
     }
     case Opcode6502::LDXImmediate:
     {
-        LoadDataXReg(memory_->Read(pc_));
+        uint8_t val = memory_->ReadByte(pc_);
+        LoadDataXReg(val);
         IncreasePC(1);
         break;
     }
@@ -111,7 +112,7 @@ void CPU6502::InputOpcode(const Opcode6502& opcode)
     case Opcode6502::BPL:
     {
         if (!pStatus_->GetNegativeFlag()) {
-            int8_t pcOffset = memory_->Read(pc_);
+            int8_t pcOffset = static_cast<int8_t>(memory_->ReadByte(pc_));
             IncreasePC(1);
             pc_ = static_cast<uint16_t>(pc_ + pcOffset);
         }

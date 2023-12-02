@@ -16,13 +16,15 @@ public:
     explicit Memory6502(std::shared_ptr<NesReader>& nesReader);
 
     void Reset();
-    uint8_t Read(const uint16_t& addr) const;
     uint8_t ReadByte(const uint16_t& addr) const;
     uint16_t ReadWord(const uint16_t& addr) const;
     void Write(const uint16_t& addr, const uint8_t val);
     std::string ToString() const;
 
     ~Memory6502() = default;
+
+private:
+    uint8_t Read(const uint16_t& addr) const;
 
 private:
     constexpr static uint16_t INTERNAL_RAM_RANGE = 0x2000;

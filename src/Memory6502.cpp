@@ -13,29 +13,6 @@ void Memory6502::Reset()
     ppuReg_.Reset();
 }
 
-uint8_t Memory6502::Read(const uint16_t& addr) const
-{
-    DEBUG("Read addr: 0x{:0>4X}\n", addr);
-    if (addr < INTERNAL_RAM_RANGE) {
-        DEBUG("Read from internal RAM\n");
-        return internalRam_[addr & (INTERNAL_RAM_SIZE - 1)];
-    }
-    else if (addr < PPU_REG_RANGE) {
-        DEBUG("Read from PPU Register\n");
-        return ppuReg_.Read(addr);
-    }
-    else if (addr < APU_REG_RANGE) {
-        // TODO: Implement APU
-    }
-    else if (addr < PRG_RAM_RANGE) {
-        // TODO: Implement PRG RAM
-    }
-    else {
-        return mapper_.Read(addr);
-    }
-    return 0;
-}
-
 uint8_t Memory6502::ReadByte(const uint16_t& addr) const
 {
     uint8_t readByte = Read(addr);
@@ -64,6 +41,29 @@ void Memory6502::Write(const uint16_t& addr, const uint8_t val)
         DEBUG("Write to PPU Register\n");
         ppuReg_.Write(addr, val);
     }
+}
+
+uint8_t Memory6502::Read(const uint16_t& addr) const
+{
+    DEBUG("Read addr: 0x{:0>4X}\n", addr);
+    if (addr < INTERNAL_RAM_RANGE) {
+        DEBUG("Read from internal RAM\n");
+        return internalRam_[addr & (INTERNAL_RAM_SIZE - 1)];
+    }
+    else if (addr < PPU_REG_RANGE) {
+        DEBUG("Read from PPU Register\n");
+        return ppuReg_.Read(addr);
+    }
+    else if (addr < APU_REG_RANGE) {
+        // TODO: Implement APU
+    }
+    else if (addr < PRG_RAM_RANGE) {
+        // TODO: Implement PRG RAM
+    }
+    else {
+        return mapper_.Read(addr);
+    }
+    return 0;
 }
 
 std::string Memory6502::ToString() const
