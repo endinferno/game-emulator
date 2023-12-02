@@ -28,7 +28,7 @@ std::string ClassFuncName(std::string&& name);
 #if DEBUG_ENABLE
 #    define DEBUG(format, ...)                               \
         do {                                                 \
-            fmt::print("FUNC: {:<25}, LINE: {:<4}: " format, \
+            fmt::print("FUNC: {:<30}, LINE: {:<4}: " format, \
                        __CLASS_FUNC__,                       \
                        __LINE__,                             \
                        ##__VA_ARGS__);                       \
@@ -42,7 +42,7 @@ std::string ClassFuncName(std::string&& name);
 #if ERROR_ENABLE
 #    define ERROR(format, ...)                               \
         do {                                                 \
-            fmt::print("FUNC: {:<25}, LINE: {:<4}: " format, \
+            fmt::print("FUNC: {:<30}, LINE: {:<4}: " format, \
                        __CLASS_FUNC__,                       \
                        __LINE__,                             \
                        ##__VA_ARGS__);                       \

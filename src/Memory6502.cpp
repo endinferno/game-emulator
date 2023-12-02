@@ -17,9 +17,11 @@ uint8_t Memory6502::Read(const uint16_t& addr) const
 {
     DEBUG("Read addr: 0x{:0>4X}\n", addr);
     if (addr < INTERNAL_RAM_RANGE) {
+        DEBUG("Read from internal RAM\n");
         return internalRam_[addr & (INTERNAL_RAM_SIZE - 1)];
     }
     else if (addr < PPU_REG_RANGE) {
+        DEBUG("Read from PPU Register\n");
         return ppuReg_.Read(addr);
     }
     else if (addr < APU_REG_RANGE) {
@@ -34,13 +36,25 @@ uint8_t Memory6502::Read(const uint16_t& addr) const
     return 0;
 }
 
+uint16_t Memory6502::ReadWord(const uint16_t& addr) const
+{
+    uint16_t lowerByte = Read(addr);
+    uint16_t upperByte = Read(addr + 1);
+    DEBUG("ReadWord addr: 0x{:0>4X} value: 0x{:0>4X}\n",
+          addr,
+          lowerByte | (upperByte << 8));
+    return lowerByte | (upperByte << 8);
+}
+
 void Memory6502::Write(const uint16_t& addr, const uint8_t val)
 {
     DEBUG("Write addr: 0x{:0>4X} val: 0x{:0>2X}\n", addr, val);
     if (addr < INTERNAL_RAM_RANGE) {
+        DEBUG("Write to internal RAM\n");
         internalRam_[addr & (INTERNAL_RAM_SIZE - 1)] = val;
     }
     else if (addr < PPU_REG_RANGE) {
+        DEBUG("Write to PPU Register\n");
         ppuReg_.Write(addr, val);
     }
 }

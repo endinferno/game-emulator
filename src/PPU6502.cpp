@@ -1,5 +1,7 @@
+#include <cassert>
+
+#include "Logger.hpp"
 #include "PPU6502.hpp"
-#include "fmt/core.h"
 
 PPU6502::PPU6502() {}
 
@@ -15,10 +17,13 @@ uint8_t PPU6502::Read(const uint16_t& addr) const
     switch (addr) {
     case PPU_STATUS_REG_ADDR:
     {
+        DEBUG("Read from PPU STATUS: 0x{:0>2X}\n", ppuStatus_);
         return ppuStatus_;
     }
     default:
     {
+        DEBUG("Read from unknown PPU register: 0x{:0>4X}\n", addr);
+        assert(false);
         break;
     }
     }
@@ -30,15 +35,21 @@ void PPU6502::Write(const uint16_t& addr, const uint8_t val)
     switch (addr) {
     case PPU_CTRL_REG_ADDR:
     {
+        DEBUG("Write to PPU CTRL: 0x{:0>2X}\n", val);
         ppuCtrl_ = val;
         break;
     }
     case PPU_MASK_REG_ADDR:
     {
+        DEBUG("Write to PPU MASK: 0x{:0>2X}\n", val);
         break;
     }
     default:
     {
+        DEBUG("Write to unknown PPU register: 0x{:0>4X} val: 0x{:0>2X}\n",
+              addr,
+              val);
+        assert(false);
         break;
     }
     }

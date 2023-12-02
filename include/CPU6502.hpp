@@ -30,9 +30,9 @@ private:
     Opcode6502 DecodeOpcode(uint8_t opcode) const;
     void IncreasePC(uint16_t offset);
     void Reset(uint16_t startAddr);
-    void StoreDataAccumReg(uint8_t val);
-    void StoreDataXReg(uint8_t val);
-    void StoreDataYReg(uint8_t val);
+    void StoreAccumRegMemory(uint16_t addr);
+    void LoadDataAccumReg(uint8_t val);
+    void LoadDataXReg(uint8_t val);
 
 private:
     constexpr static uint16_t RESET_VECTOR_ADDR = 0xFFFC;
