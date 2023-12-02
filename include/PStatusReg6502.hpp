@@ -38,16 +38,21 @@ public:
     ~PStatusReg6502() = default;
 
 private:
-    bool GetBit(const uint8_t offset) const;
-    void SetBit(const uint8_t offset, bool flag);
+    typedef union
+    {
+        struct
+        {
+            uint8_t carryFlag_ : 1;
+            uint8_t zeroFlag_ : 1;
+            uint8_t interruptDisableFlag_ : 1;
+            uint8_t decimalFlag_ : 1;
+            uint8_t breakFlag_ : 1;
+            uint8_t unusedFlag_ : 1;
+            uint8_t overflowFlag_ : 1;
+            uint8_t negativeFlag_ : 1;
+        };
+        uint8_t processorStatusReg_;
+    } ProcessorStatusReg;
 
-private:
-    constexpr static uint8_t CARRY_FLAG_OFFSET = 0x00;
-    constexpr static uint8_t ZERO_FLAG_OFFSET = 0x01;
-    constexpr static uint8_t INTERRUPT_DISABLE_FLAG_OFFSET = 0x02;
-    constexpr static uint8_t DECIMAL_FLAG_OFFSET = 0x03;
-    constexpr static uint8_t BREAK_FLAG_OFFSET = 0x04;
-    constexpr static uint8_t OVERFLOW_FLAG_OFFSET = 0x06;
-    constexpr static uint8_t NEGATIVE_FLAG_OFFSET = 0x07;
-    uint8_t pStatus_;
+    ProcessorStatusReg pStatus_;
 };
