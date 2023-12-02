@@ -109,7 +109,11 @@ void CPU6502::InputOpcode(const Opcode6502& opcode)
     }
     case Opcode6502::STAAbsolute:
     {
-        StoreAccumRegMemory(memory_->ReadWord(pc_));
+        uint16_t addr = memory_->ReadWord(pc_);
+        DEBUG("Store Accumulator Register 0x{:0>2X} in memory: 0x{:0>4X}\n",
+              (uint8_t)accumReg_,
+              addr);
+        memory_->Write(addr, accumReg_);
         IncreasePC(2);
         break;
     }
@@ -142,14 +146,6 @@ void CPU6502::InputOpcode(const Opcode6502& opcode)
 void CPU6502::IncreasePC(uint16_t offset)
 {
     pc_ += offset;
-}
-
-void CPU6502::StoreAccumRegMemory(uint16_t addr)
-{
-    DEBUG("Store Accumulator Register 0x{:0>2X} in memory: 0x{:0>4X}\n",
-          (uint8_t)accumReg_,
-          addr);
-    memory_->Write(addr, accumReg_);
 }
 
 std::string CPU6502::ToString() const

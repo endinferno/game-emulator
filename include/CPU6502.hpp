@@ -29,9 +29,6 @@ private:
     void InputOpcode(const Opcode6502& opcode);
     void IncreasePC(uint16_t offset);
     void Reset(uint16_t startAddr);
-    void StoreAccumRegMemory(uint16_t addr);
-    void LoadDataAccumReg(uint8_t val);
-    void LoadDataXReg(uint8_t val);
 
 private:
     constexpr static uint16_t RESET_VECTOR_ADDR = 0xFFFC;
