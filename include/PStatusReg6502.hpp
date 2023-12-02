@@ -42,14 +42,14 @@ private:
     {
         struct
         {
-            uint8_t carryFlag_ : 1;
-            uint8_t zeroFlag_ : 1;
+            uint8_t carryFlag_            : 1;
+            uint8_t zeroFlag_             : 1;
             uint8_t interruptDisableFlag_ : 1;
-            uint8_t decimalFlag_ : 1;
-            uint8_t breakFlag_ : 1;
-            uint8_t unusedFlag_ : 1;
-            uint8_t overflowFlag_ : 1;
-            uint8_t negativeFlag_ : 1;
+            uint8_t decimalFlag_          : 1;
+            uint8_t breakFlag_            : 1;
+            uint8_t unusedFlag_           : 1;
+            uint8_t overflowFlag_         : 1;
+            uint8_t negativeFlag_         : 1;
         };
         uint8_t processorStatusReg_;
     } ProcessorStatusReg;

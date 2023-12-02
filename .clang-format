@@ -19,7 +19,7 @@ AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
  
 # 对齐连续位域字段的风格
-# AlignConsecutiveBitFields: AcrossEmptyLinesAndComments
+AlignConsecutiveBitFields: AcrossEmptyLinesAndComments
  
 # 对齐连续宏定义的风格
 # AlignConsecutiveMacros: Consecutive #clang-format 12

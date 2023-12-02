@@ -68,20 +68,20 @@ struct chip8_opcode_t
     {
         struct __attribute__((packed))
         {
-            uint16_t addr : 12;
+            uint16_t addr       : 12;
             uint8_t opcode_type : 4;
         } chip8_opcode_adr_t;
         struct __attribute__((packed))
         {
-            uint8_t val : 8;
-            uint8_t reg_x : 4;
+            uint8_t val         : 8;
+            uint8_t reg_x       : 4;
             uint8_t opcode_type : 4;
         } chip8_opcode_srv_t;
         struct __attribute__((packed))
         {
-            uint8_t ops_type : 4;
-            uint8_t reg_y : 4;
-            uint8_t reg_x : 4;
+            uint8_t ops_type    : 4;
+            uint8_t reg_y       : 4;
+            uint8_t reg_x       : 4;
             uint8_t opcode_type : 4;
         } chip8_opcode_srr_t;
         uint16_t opcode;
